@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moments I Carried Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #faf7f2;
+    --warm: #f0ebe0;
+    --gold: #c9a96e;
+    --gold-dark: #8a6a3a;
+    --brown: #3d2b1f;
+    --brown-light: #6b4c35;
+    --text: #2a1f17;
+    --text-soft: #7a6658;
+    --border: rgba(201,169,110,0.25);
+    --white: #ffffff;
+    --shadow: rgba(61,43,31,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    background: linear-gradient(160deg, #faf7f2 0%, #f0e8d8 60%, #e8d9c0 100%);
+    padding: 2rem;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(201,169,110,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(201,169,110,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-ornament {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--brown);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-dark);
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--text-soft);
+    letter-spacing: 0.05em;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .hero-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-soft);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1s forwards;
+    transition: color 0.2s;
+  }
+
+  .hero-scroll:hover { color: var(--gold); }
+
+  .scroll-arrow {
+    width: 20px;
+    height: 30px;
+    border: 1px solid currentColor;
+    border-radius: 10px;
+    position: relative;
+  }
+
+  .scroll-arrow::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 8px;
+    background: currentColor;
+    border-radius: 2px;
+    animation: scrollDot 1.6s ease-in-out infinite;
+  }
+
+  /* ── MUSIC PLAYER ── */
+  .music-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .music-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    font-size: 0;
+  }
+
+  .music-btn:hover {
+    background: var(--gold);
+    color: white;
+  }
+
+  .music-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+  .music-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .music-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--brown);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .music-status {
+    font-size: 0.7rem;
+    color: var(--text-soft);
+  }
+
+  .music-progress {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 3px;
+    background: var(--warm);
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.5s linear;
+  }
+
+  .music-time {
+    font-size: 0.7rem;
+    color: var(--text-soft);
+    white-space: nowrap;
+  }
+
+  .music-upload-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .music-upload-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold-dark);
+  }
+
+  .volume-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .volume-row svg { width: 14px; height: 14px; fill: var(--text-soft); flex-shrink: 0; }
+
+  input[type=range].vol-slider {
+    width: 60px;
+    height: 3px;
+    -webkit-appearance: none;
+    background: var(--warm);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range].vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--gold);
+    cursor: pointer;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main { padding-bottom: 80px; }
+
+  /* ── CONTROLS ── */
+  .controls-section {
+    padding: 3rem 2rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--brown);
+  }
+
+  .controls-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .view-toggle {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .view-toggle button {
+    background: none;
+    border: none;
+    padding: 0.45rem 0.75rem;
+    cursor: pointer;
+    color: var(--text-soft);
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .view-toggle button.active {
+    background: var(--gold);
+    color: white;
+  }
+
+  .view-toggle button svg { width: 14px; height: 14px; fill: currentColor; }
+
+  .upload-photos-btn {
+    background: var(--brown);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.2s;
+  }
+
+  .upload-photos-btn:hover { background: var(--brown-light); }
+  .upload-photos-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+  .filter-row {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.3rem 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-chip:hover, .filter-chip.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: white;
+  }
+
+  /* ── GALLERY GRID ── */
+  .gallery-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .gallery-grid.view-timeline {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  /* ── YEAR DIVIDER ── */
+  .year-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 0 1rem;
+    grid-column: 1 / -1;
+  }
+
+  .year-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--gold-dark);
+    white-space: nowrap;
+  }
+
+  .year-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── PHOTO CARD ── */
+  .photo-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: fadeIn 0.5s ease both;
+    position: relative;
+    group: true;
+  }
+
+  .photo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px var(--shadow);
+  }
+
+  .photo-card .img-wrap {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--warm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+
+  .photo-card:hover img { transform: scale(1.05); }
+
+  .photo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-soft);
+    font-size: 0.8rem;
+  }
+
+  .photo-placeholder svg {
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 1.5;
+  }
+
+  .photo-card .card-meta {
+    padding: 0.75rem 0.9rem;
+  }
+
+  .photo-card .card-caption {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--brown);
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .photo-card .card-date {
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .card-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.3rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .photo-card:hover .card-actions { opacity: 1; }
+
+  .card-action-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.9);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brown);
+    transition: background 0.2s;
+  }
+
+  .card-action-btn:hover { background: white; color: #c0392b; }
+  .card-action-btn svg { width: 13px; height: 13px; fill: currentColor; }
+
+  /* ── TIMELINE VIEW ── */
+  .timeline-wrapper {
+    display: none;
+    position: relative;
+    padding-left: 60px;
+  }
+
+  .timeline-wrapper.active { display: block; }
+
+  .timeline-spine {
+    position: absolute;
+    left: 24px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-year {
+    margin-bottom: 2rem;
+  }
+
+  .timeline-year-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .timeline-year-dot {
+    position: absolute;
+    left: -44px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 0 1px var(--gold);
+  }
+
+  .timeline-year-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--brown);
+  }
+
+  .timeline-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 5rem 2rem;
+  }
+
+  .empty-state svg {
+    width: 64px;
+    height: 64px;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 1;
+    margin-bottom: 1.5rem;
+    opacity: 0.6;
+  }
+
+  .empty-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--brown);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-sub {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(20,12,8,0.9);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .lightbox.open {
+    display: flex;
+  }
+
+  .lightbox-inner {
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    animation: scaleIn 0.3s ease;
+  }
+
+  .lightbox img {
+    max-height: 75vh;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .lightbox-meta {
+    text-align: center;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .lightbox-caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    margin-bottom: 0.25rem;
+  }
+
+  .lightbox-date {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: -2rem;
+    right: 0;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    font-size: 1.8rem;
+    line-height: 1;
+    padding: 0.25rem;
+    transition: color 0.2s;
+  }
+
+  .lightbox-close:hover { color: white; }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .lightbox-nav:hover { background: rgba(255,255,255,0.2); }
+  .lightbox-nav svg { width: 18px; height: 18px; fill: currentColor; }
+  .lightbox-nav.prev { left: -3rem; }
+  .lightbox-nav.next { right: -3rem; }
+
+  /* ── ADD PHOTO MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(20,12,8,0.7);
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 460px;
+    animation: scaleIn 0.3s ease;
+  }
+
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    color: var(--brown);
+    margin-bottom: 1.5rem;
+  }
+
+  .field-group {
+    margin-bottom: 1rem;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .field-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    background: white;
+    color: var(--brown);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .field-input:focus { border-color: var(--gold); }
+
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    margin-bottom: 1rem;
+  }
+
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--gold);
+    background: rgba(201,169,110,0.04);
+  }
+
+  .drop-zone svg {
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 1.5;
+    margin-bottom: 0.5rem;
+  }
+
+  .drop-text { font-size: 0.82rem; color: var(--text-soft); }
+  .drop-text strong { color: var(--gold-dark); }
+
+  .drop-preview {
+    width: 100%;
+    max-height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: none;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn-primary {
+    flex: 1;
+    background: var(--brown);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.65rem 1.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--brown-light); }
+
+  .btn-cancel {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.65rem 1.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-cancel:hover { border-color: var(--gold); color: var(--gold-dark); }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 1.5rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--gold-dark);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes scrollDot {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+    80% { transform: translateX(-50%) translateY(10px); opacity: 0; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .music-pulse {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 1.2s ease-in-out infinite;
+    margin-right: 4px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+    .music-progress, .volume-row { display: none; }
+    .lightbox-nav.prev { left: -1rem; }
+    .lightbox-nav.next { right: -1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-ornament">Every moment left a mark</div>
+  <h1 class="hero-title">The Days That<br><em>Made Me</em></h1>
+  <p class="hero-subtitle">From my very first breath · to whoever I am today</p>
+  <div class="hero-divider"></div>
+  <a href="#gallery" class="hero-scroll">
+    <div class="scroll-arrow"></div>
+    Begin the journey
+  </a>
+</section>
+
+<!-- MAIN GALLERY -->
+<main class="main" id="gallery">
+
+  <div class="controls-section">
+    <h2 class="section-heading">Collected Light</h2>
+    <div class="controls-right">
+      <div class="view-toggle">
+        <button class="active" id="gridViewBtn" onclick="setView('grid')" title="Grid view">
+          <svg viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6"/><rect x="9" y="1" width="6" height="6"/><rect x="1" y="9" width="6" height="6"/><rect x="9" y="9" width="6" height="6"/></svg>
+          Grid
+        </button>
+        <button id="timelineViewBtn" onclick="setView('timeline')" title="Timeline view">
+          <svg viewBox="0 0 16 16"><rect x="6" y="1" width="1" height="14"/><rect x="2" y="4" width="8" height="3"/><rect x="2" y="10" width="8" height="3"/></svg>
+          Timeline
+        </button>
+      </div>
+      <button class="upload-photos-btn" onclick="openAddModal()">
+        <svg viewBox="0 0 16 16"><path d="M8 1v10M4 5l4-4 4 4M2 13h12"/></svg>
+        Preserve a Moment
+      </button>
+    </div>
+  </div>
+
+  <div class="filter-row" id="filterRow">
+    <button class="filter-chip active" onclick="setFilter('all', this)">All</button>
+  </div>
+
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-item"><span class="stat-num" id="statPhotos">0</span><span class="stat-label">Frozen moments</span></div>
+    <div class="stat-item"><span class="stat-num" id="statYears">0</span><span class="stat-label">Years of living</span></div>
+    <div class="stat-item"><span class="stat-num" id="statEras">0</span><span class="stat-label">Chapters told</span></div>
+  </div>
+
+  <div class="gallery-section">
+    <!-- Grid view -->
+    <div class="gallery-grid" id="galleryGrid"></div>
+    <!-- Timeline view -->
+    <div class="timeline-wrapper" id="timelineWrapper">
+      <div class="timeline-spine"></div>
+      <div id="timelineContent"></div>
+    </div>
+  </div>
+</main>
+
+<!-- MUSIC BAR -->
+<div class="music-bar">
+  <button class="music-btn" id="playBtn" onclick="togglePlay()" title="Play/Pause">
+    <svg id="playIcon" viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+  </button>
+  <div class="music-info">
+    <div class="music-title" id="musicTitle">The silence is waiting</div>
+    <div class="music-status" id="musicStatus">Give these memories a soundtrack</div>
+  </div>
+  <div class="music-progress">
+    <span class="music-time" id="currentTime">0:00</span>
+    <div class="progress-bar" onclick="seekMusic(event)" id="progressBar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <span class="music-time" id="totalTime">0:00</span>
+  </div>
+  <div class="volume-row">
+    <svg viewBox="0 0 16 16"><path d="M3 5H1v6h2l4 4V1L3 5z"/><path d="M11.5 3.5c1.5 1.5 1.5 7.5 0 9" stroke-width="1.2" stroke="currentColor" fill="none"/></svg>
+    <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.7" oninput="setVolume(this.value)" title="Volume">
+  </div>
+  <button class="music-upload-btn" onclick="document.getElementById('musicFileInput').click()">🎵 Set the mood</button>
+  <input type="file" id="musicFileInput" accept="audio/*" style="display:none" onchange="loadMusic(this)">
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <button class="lightbox-nav prev" onclick="navigateLightbox(-1)">
+      <svg viewBox="0 0 16 16"><path d="M10 3L6 8l4 5"/></svg>
+    </button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-nav next" onclick="navigateLightbox(1)">
+      <svg viewBox="0 0 16 16"><path d="M6 3l4 5-4 5"/></svg>
+    </button>
+    <div class="lightbox-meta">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+      <div class="lightbox-date" id="lightboxDate"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PHOTO MODAL -->
+<div class="modal-overlay" id="addModal" onclick="closeAddModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3 class="modal-title">Pin a moment in time</h3>
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('photoFileInput').click()"
+         ondragover="handleDragOver(event)" ondrop="handleDrop(event)" ondragleave="handleDragLeave(event)">
+      <svg viewBox="0 0 32 32"><path d="M4 24l8-8 5 5 5-7 6 10H4z"/><circle cx="10" cy="10" r="3"/></svg>
+      <div class="drop-text">Drop your photo here or <strong>go searching</strong></div>
+      <img id="dropPreview" class="drop-preview" src="" alt="">
+    </div>
+    <input type="file" id="photoFileInput" accept="image/*" style="display:none" onchange="previewPhoto(this)">
+    <div class="field-group">
+      <label class="field-label" for="captionInput">What was this moment?</label>
+      <input class="field-input" type="text" id="captionInput" placeholder="e.g. The day everything changed">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+      <div class="field-group">
+        <label class="field-label" for="yearInput">Year</label>
+        <input class="field-input" type="number" id="yearInput" placeholder="e.g. 2005" min="1900" max="2099">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="eraInput">Era / Tag</label>
+        <input class="field-input" type="text" id="eraInput" placeholder="e.g. Baby, School, Travel">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeAddModal()">Cancel</button>
+      <button class="btn-primary" onclick="addPhoto()">Save Memory</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="batchFileInput" accept="image/*" multiple style="display:none" onchange="handleBatchUpload(this)">
+
+<script>
+// ── DATA STORE ──
+let photos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
+let currentFilter = 'all';
+let currentView = 'grid';
+let lightboxIndex = 0;
+let lightboxPhotos = [];
+let pendingPhotoData = null;
+let audio = new Audio();
+let isPlaying = false;
+
+function save() {
+  localStorage.setItem('galleryPhotos', JSON.stringify(photos));
+}
+
+// ── RENDER ──
+function render() {
+  const filtered = currentFilter === 'all'
+    ? photos
+    : photos.filter(p => (p.era || '').toLowerCase() === currentFilter.toLowerCase());
+
+  updateStats();
+  updateFilters();
+
+  if (currentView === 'grid') {
+    renderGrid(filtered);
+    document.getElementById('galleryGrid').style.display = 'grid';
+    document.getElementById('timelineWrapper').classList.remove('active');
+  } else {
+    document.getElementById('galleryGrid').style.display = 'none';
+    document.getElementById('timelineWrapper').classList.add('active');
+    renderTimeline(filtered);
+  }
+}
+
+function renderGrid(filtered) {
+  const grid = document.getElementById('galleryGrid');
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <svg viewBox="0 0 64 64"><rect x="4" y="10" width="56" height="44" rx="4"/><circle cx="22" cy="26" r="6"/><path d="M4 44l14-12 10 10 8-10 14 16"/></svg>
+      <div class="empty-title">No memories yet</div>
+      <div class="empty-sub">Click "Add Photos" to start building your gallery</div>
+      <button class="upload-photos-btn" onclick="openAddModal()" style="margin:auto;display:flex">
+        <svg viewBox="0 0 16 16" style="width:14px;height:14px;fill:white"><path d="M8 1v10M4 5l4-4 4 4M2 13h12"/></svg> Add Your First Photo
+      </button>
+    </div>`;
+    return;
+  }
+
+  // Group by year for dividers
+  const byYear = {};
+  filtered.forEach(p => {
+    const y = p.year || 'Unknown';
+    if (!byYear[y]) byYear[y] = [];
+    byYear[y].push(p);
+  });
+
+  const years = Object.keys(byYear).sort((a,b) => {
+    if (a === 'Unknown') return 1;
+    if (b === 'Unknown') return -1;
+    return parseInt(a) - parseInt(b);
+  });
+
+  grid.innerHTML = '';
+  lightboxPhotos = filtered;
+
+  years.forEach(year => {
+    const divider = document.createElement('div');
+    divider.className = 'year-divider';
+    divider.innerHTML = `<span class="year-label">${year}</span><div class="year-line"></div>`;
+    grid.appendChild(divider);
+
+    byYear[year].forEach(photo => {
+      const idx = filtered.indexOf(photo);
+      const card = createCard(photo, idx);
+      grid.appendChild(card);
+    });
+  });
+}
+
+function renderTimeline(filtered) {
+  const byYear = {};
+  filtered.forEach(p => {
+    const y = p.year || 'Unknown';
+    if (!byYear[y]) byYear[y] = [];
+    byYear[y].push(p);
+  });
+
+  const years = Object.keys(byYear).sort((a,b) => {
+    if (a === 'Unknown') return 1; if (b === 'Unknown') return -1;
+    return parseInt(a) - parseInt(b);
+  });
+
+  lightboxPhotos = filtered;
+  const content = document.getElementById('timelineContent');
+  content.innerHTML = '';
+
+  years.forEach(year => {
+    const section = document.createElement('div');
+    section.className = 'timeline-year';
+    const photos_in_year = byYear[year];
+    const photoCards = photos_in_year.map((photo, i) => {
+      const idx = filtered.indexOf(photo);
+      const card = createCard(photo, idx);
+      card.style.animationDelay = (i * 0.08) + 's';
+      return card.outerHTML;
+    }).join('');
+
+    section.innerHTML = `
+      <div class="timeline-year-label">
+        <div class="timeline-year-dot"></div>
+        <span class="timeline-year-text">${year}</span>
+        <span style="font-size:0.75rem;color:var(--text-soft)">${photos_in_year.length} photo${photos_in_year.length !== 1 ? 's' : ''}</span>
+      </div>
+      <div class="timeline-photos">${photoCards}</div>
+    `;
+    content.appendChild(section);
+
+    section.querySelectorAll('.photo-card').forEach((card, i) => {
+      const photo = photos_in_year[i];
+      const idx = filtered.indexOf(photo);
+      card.querySelector('.img-wrap').onclick = () => openLightbox(idx);
+      const delBtn = card.querySelector('.del-btn');
+      if (delBtn) delBtn.onclick = (e) => { e.stopPropagation(); deletePhoto(photo.id); };
+    });
+  });
+
+  if (filtered.length === 0) {
+    content.innerHTML = `<div class="empty-state">
+      <svg viewBox="0 0 64 64"><rect x="4" y="10" width="56" height="44" rx="4"/><circle cx="22" cy="26" r="6"/><path d="M4 44l14-12 10 10 8-10 14 16"/></svg>
+      <div class="empty-title">No memories yet</div>
+      <div class="empty-sub">Click "Add Photos" to start building your gallery</div>
+    </div>`;
+  }
+}
+
+function createCard(photo, idx) {
+  const card = document.createElement('div');
+  card.className = 'photo-card';
+  card.style.animationDelay = (idx * 0.05) + 's';
+  card.innerHTML = `
+    <div class="img-wrap">
+      ${photo.src ? `<img src="${photo.src}" alt="${photo.caption || ''}">` : `<div class="photo-placeholder"><svg viewBox="0 0 32 32"><rect x="2" y="6" width="28" height="22" rx="2"/><circle cx="11" cy="15" r="3"/><path d="M2 22l8-7 6 6 4-5 8 9"/></svg><span>No image</span></div>`}
+      <div class="card-actions">
+        <button class="card-action-btn del-btn" title="Delete">
+          <svg viewBox="0 0 14 14"><path d="M2 4h10M5 4V2h4v2M3 4l1 8h6l1-8"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="card-meta">
+      <div class="card-caption">${photo.caption || 'Untitled'}</div>
+      <div class="card-date">
+        <svg style="width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.5" viewBox="0 0 12 12"><rect x="1" y="2" width="10" height="9" rx="1"/><path d="M4 1v2M8 1v2M1 5h10"/></svg>
+        ${photo.year || 'Unknown year'}${photo.era ? ` · ${photo.era}` : ''}
+      </div>
+    </div>
+  `;
+  card.querySelector('.img-wrap').onclick = () => openLightbox(idx);
+  card.querySelector('.del-btn').onclick = (e) => { e.stopPropagation(); deletePhoto(photo.id); };
+  return card;
+}
+
+function updateStats() {
+  const total = photos.length;
+  const years = new Set(photos.map(p => p.year).filter(Boolean)).size;
+  const eras = new Set(photos.map(p => p.era).filter(Boolean)).size;
+  document.getElementById('statPhotos').textContent = total;
+  document.getElementById('statYears').textContent = years;
+  document.getElementById('statEras').textContent = eras;
+}
+
+function updateFilters() {
+  const eras = [...new Set(photos.map(p => p.era).filter(Boolean))];
+  const row = document.getElementById('filterRow');
+  row.innerHTML = `<button class="filter-chip ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all', this)">All</button>`;
+  eras.forEach(era => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-chip' + (currentFilter === era ? ' active' : '');
+    btn.textContent = era;
+    btn.onclick = () => setFilter(era, btn);
+    row.appendChild(btn);
+  });
+}
+
+// ── CONTROLS ──
+function setView(view) {
+  currentView = view;
+  document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
+  document.getElementById('timelineViewBtn').classList.toggle('active', view === 'timeline');
+  render();
+}
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+// ── ADD PHOTO ──
+function openAddModal() {
+  document.getElementById('addModal').classList.add('open');
+  pendingPhotoData = null;
+  document.getElementById('dropPreview').style.display = 'none';
+  document.getElementById('captionInput').value = '';
+  document.getElementById('yearInput').value = '';
+  document.getElementById('eraInput').value = '';
+  document.querySelector('.drop-zone svg').style.display = '';
+  document.querySelector('.drop-zone .drop-text').style.display = '';
+}
+
+function closeAddModal(e) {
+  if (!e || e.target === document.getElementById('addModal')) {
+    document.getElementById('addModal').classList.remove('open');
+  }
+}
+
+function previewPhoto(input) {
+  if (!input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    pendingPhotoData = e.target.result;
+    const preview = document.getElementById('dropPreview');
+    preview.src = pendingPhotoData;
+    preview.style.display = 'block';
+    document.querySelector('.drop-zone svg').style.display = 'none';
+    document.querySelector('.drop-zone .drop-text').style.display = 'none';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.add('dragover');
+}
+
+function handleDragLeave(e) {
+  document.getElementById('dropZone').classList.remove('dragover');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const fakeInput = { files: [file] };
+    previewPhoto(fakeInput);
+  }
+}
+
+function addPhoto() {
+  const caption = document.getElementById('captionInput').value.trim();
+  const year = document.getElementById('yearInput').value.trim();
+  const era = document.getElementById('eraInput').value.trim();
+
+  const photo = {
+    id: Date.now(),
+    src: pendingPhotoData || null,
+    caption: caption || 'Untitled',
+    year: year || null,
+    era: era || null,
+    addedAt: new Date().toISOString()
+  };
+
+  photos.push(photo);
+  save();
+  closeAddModal();
+  render();
+}
+
+function deletePhoto(id) {
+  if (confirm('Remove this memory from your gallery?')) {
+    photos = photos.filter(p => p.id !== id);
+    save();
+    render();
+  }
+}
+
+function handleBatchUpload(input) {
+  Array.from(input.files).forEach((file, i) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      photos.push({
+        id: Date.now() + i,
+        src: e.target.result,
+        caption: file.name.replace(/\.[^.]+$/, ''),
+        year: null, era: null,
+        addedAt: new Date().toISOString()
+      });
+      if (i === input.files.length - 1) { save(); render(); }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// ── LIGHTBOX ──
+function openLightbox(idx) {
+  lightboxIndex = idx;
+  showLightboxPhoto();
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function showLightboxPhoto() {
+  const p = lightboxPhotos[lightboxIndex];
+  if (!p) return;
+  document.getElementById('lightboxImg').src = p.src || '';
+  document.getElementById('lightboxCaption').textContent = p.caption || 'Untitled';
+  document.getElementById('lightboxDate').textContent = [p.year, p.era].filter(Boolean).join(' · ') || '';
+}
+
+function closeLightbox(e) {
+  if (!e || e.target === document.getElementById('lightbox') || !e.target) {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+}
+
+function navigateLightbox(dir) {
+  lightboxIndex = (lightboxIndex + dir + lightboxPhotos.length) % lightboxPhotos.length;
+  showLightboxPhoto();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowLeft') navigateLightbox(-1);
+  if (e.key === 'ArrowRight') navigateLightbox(1);
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// ── MUSIC ──
+function loadMusic(input) {
+  if (!input.files[0]) return;
+  const file = input.files[0];
+  const url = URL.createObjectURL(file);
+  audio.src = url;
+  audio.volume = 0.7;
+  document.getElementById('musicTitle').textContent = file.name.replace(/\.[^.]+$/, '');
+  document.getElementById('musicStatus').innerHTML = '<span class="music-pulse"></span> Ready to play';
+  audio.load();
+  audio.ontimeupdate = updateProgress;
+  audio.onended = () => {
+    document.getElementById('playIcon').innerHTML = '<polygon points="4,2 14,8 4,14"/>';
+    document.getElementById('musicStatus').textContent = 'Finished';
+    isPlaying = false;
+  };
+  audio.onloadedmetadata = () => {
+    document.getElementById('totalTime').textContent = formatTime(audio.duration);
+  };
+}
+
+function togglePlay() {
+  if (!audio.src) { document.getElementById('musicFileInput').click(); return; }
+  if (isPlaying) {
+    audio.pause();
+    document.getElementById('playIcon').innerHTML = '<polygon points="4,2 14,8 4,14"/>';
+    document.getElementById('musicStatus').textContent = 'Paused';
+    isPlaying = false;
+  } else {
+    audio.play();
+    document.getElementById('playIcon').innerHTML = '<rect x="3" y="2" width="4" height="12"/><rect x="9" y="2" width="4" height="12"/>';
+    document.getElementById('musicStatus').innerHTML = '<span class="music-pulse"></span> Playing';
+    isPlaying = true;
+  }
+}
+
+function updateProgress() {
+  if (!audio.duration) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+}
+
+function seekMusic(e) {
+  if (!audio.duration) return;
+  const bar = document.getElementById('progressBar');
+  const rect = bar.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = pct * audio.duration;
+}
+
+function setVolume(val) { audio.volume = parseFloat(val); }
+
+function formatTime(s) {
+  if (isNaN(s)) return '0:00';
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60).toString().padStart(2, '0');
+  return `${m}:${sec}`;
+}
+
+// ── INIT ──
+render();
+</script>
+</body>
+</html>
