@@ -6,909 +6,243 @@
 <title>Moments I Carried Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
   :root {
-    --cream: #faf7f2;
-    --warm: #f0ebe0;
-    --gold: #c9a96e;
-    --gold-dark: #8a6a3a;
-    --brown: #3d2b1f;
-    --brown-light: #6b4c35;
-    --text: #2a1f17;
-    --text-soft: #7a6658;
-    --border: rgba(201,169,110,0.25);
-    --white: #ffffff;
-    --shadow: rgba(61,43,31,0.12);
+    --cream:#faf7f2; --warm:#f0ebe0; --gold:#c9a96e; --gold-dark:#8a6a3a;
+    --brown:#3d2b1f; --brown-light:#6b4c35; --text:#2a1f17; --text-soft:#7a6658;
+    --border:rgba(201,169,110,0.25); --shadow:rgba(61,43,31,0.12);
+    --red:#c0392b;
   }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+  html { scroll-behavior:smooth; }
+  body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text); min-height:100vh; overflow-x:hidden; }
 
   /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    background: linear-gradient(160deg, #faf7f2 0%, #f0e8d8 60%, #e8d9c0 100%);
-    padding: 2rem;
-    overflow: hidden;
-  }
+  .hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; position:relative; background:linear-gradient(160deg,#faf7f2 0%,#f0e8d8 60%,#e8d9c0 100%); padding:2rem; overflow:hidden; }
+  .hero::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle at 20% 30%,rgba(201,169,110,.12) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(201,169,110,.08) 0%,transparent 50%); pointer-events:none; }
+  .hero-ornament { font-family:'Cormorant Garamond',serif; font-size:1rem; letter-spacing:.4em; color:var(--gold); text-transform:uppercase; margin-bottom:1.5rem; opacity:0; animation:fadeUp .8s ease .2s forwards; }
+  .hero-title { font-family:'Cormorant Garamond',serif; font-size:clamp(3rem,8vw,6.5rem); font-weight:300; line-height:1.05; color:var(--brown); margin-bottom:1rem; opacity:0; animation:fadeUp .8s ease .4s forwards; }
+  .hero-title em { font-style:italic; color:var(--gold-dark); }
+  .hero-subtitle { font-size:1rem; font-weight:300; color:var(--text-soft); letter-spacing:.05em; margin-bottom:3rem; opacity:0; animation:fadeUp .8s ease .6s forwards; }
+  .hero-divider { width:60px; height:1px; background:var(--gold); margin:0 auto 3rem; opacity:0; animation:fadeUp .8s ease .8s forwards; }
+  .hero-scroll { display:flex; flex-direction:column; align-items:center; gap:.5rem; color:var(--text-soft); font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; text-decoration:none; opacity:0; animation:fadeUp .8s ease 1s forwards; transition:color .2s; }
+  .hero-scroll:hover { color:var(--gold); }
+  .scroll-arrow { width:20px; height:30px; border:1px solid currentColor; border-radius:10px; position:relative; }
+  .scroll-arrow::after { content:''; position:absolute; top:6px; left:50%; transform:translateX(-50%); width:3px; height:8px; background:currentColor; border-radius:2px; animation:scrollDot 1.6s ease-in-out infinite; }
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      radial-gradient(circle at 20% 30%, rgba(201,169,110,0.12) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(201,169,110,0.08) 0%, transparent 50%);
-    pointer-events: none;
-  }
+  /* ── OWNER BADGE (top-right corner) ── */
+  .owner-corner { position:fixed; top:1rem; right:1rem; z-index:500; display:flex; align-items:center; gap:.5rem; }
+  .owner-badge { display:flex; align-items:center; gap:.4rem; background:rgba(255,255,255,.92); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:20px; padding:.3rem .85rem; font-size:.72rem; color:var(--brown); font-weight:500; box-shadow:0 2px 8px var(--shadow); }
+  .owner-badge .dot { width:7px; height:7px; border-radius:50%; background:var(--gold); }
+  .owner-btn { background:none; border:1px solid var(--border); border-radius:20px; padding:.3rem .85rem; font-size:.72rem; color:var(--text-soft); cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .2s; background:rgba(255,255,255,.9); backdrop-filter:blur(8px); box-shadow:0 2px 8px var(--shadow); }
+  .owner-btn:hover { border-color:var(--gold); color:var(--gold-dark); }
+  .owner-btn.logout { color:var(--red); border-color:rgba(192,57,43,.25); }
+  .owner-btn.logout:hover { background:var(--red); color:white; border-color:var(--red); }
 
-  .hero-ornament {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    letter-spacing: 0.4em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.2s forwards;
-  }
+  /* ── LOGIN MODAL ── */
+  .login-overlay { display:none; position:fixed; inset:0; z-index:600; background:rgba(20,12,8,.75); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1rem; }
+  .login-overlay.open { display:flex; }
+  .login-box { background:var(--cream); border-radius:20px; padding:2.5rem 2rem; width:100%; max-width:380px; text-align:center; animation:scaleIn .3s ease; position:relative; }
+  .login-icon { width:52px; height:52px; border-radius:50%; background:var(--warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin:0 auto 1.2rem; }
+  .login-icon svg { width:22px; height:22px; fill:none; stroke:var(--gold); stroke-width:1.5; }
+  .login-title { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:300; color:var(--brown); margin-bottom:.4rem; }
+  .login-sub { font-size:.8rem; color:var(--text-soft); margin-bottom:1.8rem; line-height:1.5; }
+  .login-input-wrap { position:relative; margin-bottom:1rem; }
+  .login-input { width:100%; border:1px solid var(--border); border-radius:10px; padding:.75rem 2.8rem .75rem 1rem; font-family:'DM Sans',sans-serif; font-size:.9rem; background:white; color:var(--brown); outline:none; transition:border-color .2s; text-align:center; letter-spacing:.1em; }
+  .login-input:focus { border-color:var(--gold); }
+  .login-eye { position:absolute; right:.75rem; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--text-soft); padding:.2rem; }
+  .login-eye svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.5; }
+  .login-error { font-size:.75rem; color:var(--red); margin-bottom:.75rem; min-height:1rem; }
+  .login-submit { width:100%; background:var(--brown); color:white; border:none; border-radius:10px; padding:.75rem; font-family:'DM Sans',sans-serif; font-size:.88rem; font-weight:500; cursor:pointer; transition:background .2s; margin-bottom:1rem; }
+  .login-submit:hover { background:var(--brown-light); }
+  .login-cancel { background:none; border:none; font-size:.75rem; color:var(--text-soft); cursor:pointer; font-family:'DM Sans',sans-serif; text-decoration:underline; }
+  .login-cancel:hover { color:var(--gold-dark); }
+  .login-hint { font-size:.7rem; color:var(--text-soft); margin-top:1.2rem; opacity:.6; }
 
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3rem, 8vw, 6.5rem);
-    font-weight: 300;
-    line-height: 1.05;
-    color: var(--brown);
-    margin-bottom: 1rem;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.4s forwards;
-  }
+  /* ── CHANGE PASSWORD MODAL ── */
+  .changepw-box { background:var(--cream); border-radius:20px; padding:2rem; width:100%; max-width:380px; animation:scaleIn .3s ease; }
+  .changepw-title { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:300; color:var(--brown); margin-bottom:1.2rem; }
 
-  .hero-title em {
-    font-style: italic;
-    color: var(--gold-dark);
-  }
-
-  .hero-subtitle {
-    font-size: 1rem;
-    font-weight: 300;
-    color: var(--text-soft);
-    letter-spacing: 0.05em;
-    margin-bottom: 3rem;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.6s forwards;
-  }
-
-  .hero-divider {
-    width: 60px;
-    height: 1px;
-    background: var(--gold);
-    margin: 0 auto 3rem;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.8s forwards;
-  }
-
-  .hero-scroll {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-soft);
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    text-decoration: none;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 1s forwards;
-    transition: color 0.2s;
-  }
-
-  .hero-scroll:hover { color: var(--gold); }
-
-  .scroll-arrow {
-    width: 20px;
-    height: 30px;
-    border: 1px solid currentColor;
-    border-radius: 10px;
-    position: relative;
-  }
-
-  .scroll-arrow::after {
-    content: '';
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 3px;
-    height: 8px;
-    background: currentColor;
-    border-radius: 2px;
-    animation: scrollDot 1.6s ease-in-out infinite;
-  }
-
-  /* ── MUSIC PLAYER ── */
-  .music-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(12px);
-    border-top: 1px solid var(--border);
-    padding: 0.75rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .music-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--gold);
-    background: transparent;
-    color: var(--gold-dark);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-    font-size: 0;
-  }
-
-  .music-btn:hover {
-    background: var(--gold);
-    color: white;
-  }
-
-  .music-btn svg { width: 14px; height: 14px; fill: currentColor; }
-
-  .music-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .music-title {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--brown);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .music-status {
-    font-size: 0.7rem;
-    color: var(--text-soft);
-  }
-
-  .music-progress {
-    flex: 2;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .progress-bar {
-    flex: 1;
-    height: 3px;
-    background: var(--warm);
-    border-radius: 2px;
-    overflow: hidden;
-    cursor: pointer;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: var(--gold);
-    border-radius: 2px;
-    width: 0%;
-    transition: width 0.5s linear;
-  }
-
-  .music-time {
-    font-size: 0.7rem;
-    color: var(--text-soft);
-    white-space: nowrap;
-  }
-
-  .music-upload-btn {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 0.3rem 0.8rem;
-    font-size: 0.72rem;
-    color: var(--text-soft);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  .music-upload-btn:hover {
-    border-color: var(--gold);
-    color: var(--gold-dark);
-  }
-
-  .volume-row {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .volume-row svg { width: 14px; height: 14px; fill: var(--text-soft); flex-shrink: 0; }
-
-  input[type=range].vol-slider {
-    width: 60px;
-    height: 3px;
-    -webkit-appearance: none;
-    background: var(--warm);
-    border-radius: 2px;
-    outline: none;
-    cursor: pointer;
-  }
-
-  input[type=range].vol-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--gold);
-    cursor: pointer;
-  }
-
-  /* ── MAIN CONTENT ── */
-  .main { padding-bottom: 80px; }
+  /* ── MAIN ── */
+  .main { padding-bottom:90px; }
 
   /* ── CONTROLS ── */
-  .controls-section {
-    padding: 3rem 2rem 1.5rem;
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-  }
+  .controls-section { padding:3rem 2rem 1.5rem; max-width:1100px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; }
+  .section-heading { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:300; color:var(--brown); }
+  .controls-right { display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+  .view-toggle { display:flex; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  .view-toggle button { background:none; border:none; padding:.45rem .75rem; cursor:pointer; color:var(--text-soft); transition:all .2s; font-family:'DM Sans',sans-serif; font-size:.75rem; display:flex; align-items:center; gap:.3rem; }
+  .view-toggle button.active { background:var(--gold); color:white; }
+  .view-toggle button svg { width:14px; height:14px; fill:currentColor; }
+  .upload-photos-btn { background:var(--brown); color:white; border:none; border-radius:8px; padding:.5rem 1.2rem; font-family:'DM Sans',sans-serif; font-size:.82rem; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:.4rem; transition:background .2s; }
+  .upload-photos-btn:hover { background:var(--brown-light); }
+  .upload-photos-btn svg { width:14px; height:14px; fill:currentColor; }
 
-  .section-heading {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.2rem;
-    font-weight: 300;
-    color: var(--brown);
-  }
+  /* ── FILTER ── */
+  .filter-row { max-width:1100px; margin:0 auto; padding:0 2rem 1.5rem; display:flex; gap:.5rem; flex-wrap:wrap; }
+  .filter-chip { background:none; border:1px solid var(--border); border-radius:20px; padding:.3rem .9rem; font-family:'DM Sans',sans-serif; font-size:.78rem; color:var(--text-soft); cursor:pointer; transition:all .2s; }
+  .filter-chip:hover, .filter-chip.active { background:var(--gold); border-color:var(--gold); color:white; }
 
-  .controls-right {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
+  /* ── STATS ── */
+  .stats-bar { max-width:1100px; margin:0 auto; padding:0 2rem 1.5rem; display:flex; gap:2rem; flex-wrap:wrap; }
+  .stat-item { display:flex; flex-direction:column; gap:.1rem; }
+  .stat-num { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:300; color:var(--gold-dark); line-height:1; }
+  .stat-label { font-size:.72rem; color:var(--text-soft); letter-spacing:.08em; text-transform:uppercase; }
 
-  .view-toggle {
-    display: flex;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .view-toggle button {
-    background: none;
-    border: none;
-    padding: 0.45rem 0.75rem;
-    cursor: pointer;
-    color: var(--text-soft);
-    transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .view-toggle button.active {
-    background: var(--gold);
-    color: white;
-  }
-
-  .view-toggle button svg { width: 14px; height: 14px; fill: currentColor; }
-
-  .upload-photos-btn {
-    background: var(--brown);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.5rem 1.2rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: background 0.2s;
-  }
-
-  .upload-photos-btn:hover { background: var(--brown-light); }
-  .upload-photos-btn svg { width: 14px; height: 14px; fill: currentColor; }
-
-  .filter-row {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem 1.5rem;
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .filter-chip {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 0.3rem 0.9rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    color: var(--text-soft);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .filter-chip:hover, .filter-chip.active {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: white;
-  }
-
-  /* ── GALLERY GRID ── */
-  .gallery-section {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
-  }
-
-  .gallery-grid.view-timeline {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  /* ── YEAR DIVIDER ── */
-  .year-divider {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 2rem 0 1rem;
-    grid-column: 1 / -1;
-  }
-
-  .year-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    font-weight: 300;
-    color: var(--gold-dark);
-    white-space: nowrap;
-  }
-
-  .year-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  /* ── GALLERY ── */
+  .gallery-section { max-width:1100px; margin:0 auto; padding:0 2rem; }
+  .gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem; }
+  .year-divider { display:flex; align-items:center; gap:1rem; padding:2rem 0 1rem; grid-column:1/-1; }
+  .year-label { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--gold-dark); white-space:nowrap; }
+  .year-line { flex:1; height:1px; background:var(--border); }
 
   /* ── PHOTO CARD ── */
-  .photo-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    animation: fadeIn 0.5s ease both;
-    position: relative;
-    group: true;
-  }
+  .photo-card { background:white; border-radius:12px; overflow:hidden; border:1px solid var(--border); cursor:pointer; transition:transform .25s ease,box-shadow .25s ease; animation:fadeIn .5s ease both; position:relative; }
+  .photo-card:hover { transform:translateY(-4px); box-shadow:0 12px 32px var(--shadow); }
+  .photo-card .img-wrap { aspect-ratio:4/3; overflow:hidden; background:var(--warm); display:flex; align-items:center; justify-content:center; position:relative; }
+  .photo-card img { width:100%; height:100%; object-fit:cover; transition:transform .4s ease; display:block; }
+  .photo-card:hover img { transform:scale(1.05); }
+  .photo-placeholder { display:flex; flex-direction:column; align-items:center; gap:.5rem; color:var(--text-soft); font-size:.8rem; }
+  .photo-placeholder svg { width:32px; height:32px; fill:none; stroke:var(--gold); stroke-width:1.5; }
+  .photo-card .card-meta { padding:.75rem .9rem; }
+  .photo-card .card-caption { font-size:.85rem; font-weight:500; color:var(--brown); margin-bottom:.2rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .photo-card .card-date { font-size:.72rem; color:var(--text-soft); display:flex; align-items:center; gap:.3rem; }
+  .card-actions { position:absolute; top:.5rem; right:.5rem; display:flex; gap:.3rem; opacity:0; transition:opacity .2s; }
+  .photo-card:hover .card-actions { opacity:1; }
+  .card-action-btn { width:28px; height:28px; border-radius:50%; border:none; background:rgba(255,255,255,.9); cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--brown); transition:background .2s; }
+  .card-action-btn:hover { background:white; color:var(--red); }
+  .card-action-btn svg { width:13px; height:13px; fill:currentColor; }
 
-  .photo-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px var(--shadow);
-  }
-
-  .photo-card .img-wrap {
-    aspect-ratio: 4/3;
-    overflow: hidden;
-    background: var(--warm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-
-  .photo-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-    display: block;
-  }
-
-  .photo-card:hover img { transform: scale(1.05); }
-
-  .photo-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-soft);
-    font-size: 0.8rem;
-  }
-
-  .photo-placeholder svg {
-    width: 32px;
-    height: 32px;
-    fill: none;
-    stroke: var(--gold);
-    stroke-width: 1.5;
-  }
-
-  .photo-card .card-meta {
-    padding: 0.75rem 0.9rem;
-  }
-
-  .photo-card .card-caption {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--brown);
-    margin-bottom: 0.2rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .photo-card .card-date {
-    font-size: 0.72rem;
-    color: var(--text-soft);
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .card-actions {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    display: flex;
-    gap: 0.3rem;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .photo-card:hover .card-actions { opacity: 1; }
-
-  .card-action-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255,255,255,0.9);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--brown);
-    transition: background 0.2s;
-  }
-
-  .card-action-btn:hover { background: white; color: #c0392b; }
-  .card-action-btn svg { width: 13px; height: 13px; fill: currentColor; }
-
-  /* ── TIMELINE VIEW ── */
-  .timeline-wrapper {
-    display: none;
-    position: relative;
-    padding-left: 60px;
-  }
-
-  .timeline-wrapper.active { display: block; }
-
-  .timeline-spine {
-    position: absolute;
-    left: 24px;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: var(--border);
-  }
-
-  .timeline-year {
-    margin-bottom: 2rem;
-  }
-
-  .timeline-year-label {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    position: relative;
-  }
-
-  .timeline-year-dot {
-    position: absolute;
-    left: -44px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--gold);
-    border: 3px solid var(--cream);
-    box-shadow: 0 0 0 1px var(--gold);
-  }
-
-  .timeline-year-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    font-weight: 400;
-    color: var(--brown);
-  }
-
-  .timeline-photos {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.75rem;
-  }
+  /* ── TIMELINE ── */
+  .timeline-wrapper { display:none; position:relative; padding-left:60px; }
+  .timeline-wrapper.active { display:block; }
+  .timeline-spine { position:absolute; left:24px; top:0; bottom:0; width:1px; background:var(--border); }
+  .timeline-year { margin-bottom:2rem; }
+  .timeline-year-label { display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; position:relative; }
+  .timeline-year-dot { position:absolute; left:-44px; width:16px; height:16px; border-radius:50%; background:var(--gold); border:3px solid var(--cream); box-shadow:0 0 0 1px var(--gold); }
+  .timeline-year-text { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:400; color:var(--brown); }
+  .timeline-photos { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:.75rem; }
 
   /* ── EMPTY STATE ── */
-  .empty-state {
-    grid-column: 1/-1;
-    text-align: center;
-    padding: 5rem 2rem;
-  }
-
-  .empty-state svg {
-    width: 64px;
-    height: 64px;
-    fill: none;
-    stroke: var(--gold);
-    stroke-width: 1;
-    margin-bottom: 1.5rem;
-    opacity: 0.6;
-  }
-
-  .empty-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    font-weight: 300;
-    color: var(--brown);
-    margin-bottom: 0.5rem;
-  }
-
-  .empty-sub {
-    font-size: 0.85rem;
-    color: var(--text-soft);
-    margin-bottom: 1.5rem;
-  }
+  .empty-state { grid-column:1/-1; text-align:center; padding:5rem 2rem; }
+  .empty-state svg { width:64px; height:64px; fill:none; stroke:var(--gold); stroke-width:1; margin-bottom:1.5rem; opacity:.6; }
+  .empty-title { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:300; color:var(--brown); margin-bottom:.5rem; }
+  .empty-sub { font-size:.85rem; color:var(--text-soft); margin-bottom:1.5rem; }
 
   /* ── LIGHTBOX ── */
-  .lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    background: rgba(20,12,8,0.9);
-    backdrop-filter: blur(6px);
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
-
-  .lightbox.open {
-    display: flex;
-  }
-
-  .lightbox-inner {
-    max-width: 900px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    position: relative;
-    animation: scaleIn 0.3s ease;
-  }
-
-  .lightbox img {
-    max-height: 75vh;
-    max-width: 100%;
-    object-fit: contain;
-    border-radius: 8px;
-  }
-
-  .lightbox-meta {
-    text-align: center;
-    color: rgba(255,255,255,0.85);
-  }
-
-  .lightbox-caption {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    font-weight: 300;
-    margin-bottom: 0.25rem;
-  }
-
-  .lightbox-date {
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 0.1em;
-  }
-
-  .lightbox-close {
-    position: absolute;
-    top: -2rem;
-    right: 0;
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.6);
-    cursor: pointer;
-    font-size: 1.8rem;
-    line-height: 1;
-    padding: 0.25rem;
-    transition: color 0.2s;
-  }
-
-  .lightbox-close:hover { color: white; }
-
-  .lightbox-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,0.1);
-    border: none;
-    color: white;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
-  }
-
-  .lightbox-nav:hover { background: rgba(255,255,255,0.2); }
-  .lightbox-nav svg { width: 18px; height: 18px; fill: currentColor; }
-  .lightbox-nav.prev { left: -3rem; }
-  .lightbox-nav.next { right: -3rem; }
+  .lightbox { display:none; position:fixed; inset:0; z-index:200; background:rgba(20,12,8,.9); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:1rem; }
+  .lightbox.open { display:flex; }
+  .lightbox-inner { max-width:900px; width:100%; display:flex; flex-direction:column; align-items:center; gap:1rem; position:relative; animation:scaleIn .3s ease; }
+  .lightbox img { max-height:75vh; max-width:100%; object-fit:contain; border-radius:8px; }
+  .lightbox-meta { text-align:center; color:rgba(255,255,255,.85); }
+  .lightbox-caption { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; margin-bottom:.25rem; }
+  .lightbox-date { font-size:.78rem; color:rgba(255,255,255,.5); letter-spacing:.1em; }
+  .lightbox-close { position:absolute; top:-2rem; right:0; background:none; border:none; color:rgba(255,255,255,.6); cursor:pointer; font-size:1.8rem; line-height:1; padding:.25rem; transition:color .2s; }
+  .lightbox-close:hover { color:white; }
+  .lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.1); border:none; color:white; width:44px; height:44px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s; }
+  .lightbox-nav:hover { background:rgba(255,255,255,.2); }
+  .lightbox-nav svg { width:18px; height:18px; fill:currentColor; }
+  .lightbox-nav.prev { left:-3rem; }
+  .lightbox-nav.next { right:-3rem; }
 
   /* ── ADD PHOTO MODAL ── */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 300;
-    background: rgba(20,12,8,0.7);
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
+  .modal-overlay { display:none; position:fixed; inset:0; z-index:300; background:rgba(20,12,8,.7); align-items:center; justify-content:center; padding:1rem; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:var(--cream); border-radius:16px; padding:2rem; width:100%; max-width:460px; animation:scaleIn .3s ease; max-height:90vh; overflow-y:auto; }
+  .modal-title { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:var(--brown); margin-bottom:1.5rem; }
+  .field-group { margin-bottom:1rem; }
+  .field-label { display:block; font-size:.75rem; font-weight:500; color:var(--text-soft); letter-spacing:.08em; text-transform:uppercase; margin-bottom:.4rem; }
+  .field-input { width:100%; border:1px solid var(--border); border-radius:8px; padding:.6rem .8rem; font-family:'DM Sans',sans-serif; font-size:.85rem; background:white; color:var(--brown); outline:none; transition:border-color .2s; appearance:none; }
+  .field-input:focus { border-color:var(--gold); }
+  .drop-zone { border:2px dashed var(--border); border-radius:12px; padding:2rem; text-align:center; cursor:pointer; transition:all .2s; background:white; margin-bottom:1rem; }
+  .drop-zone:hover, .drop-zone.dragover { border-color:var(--gold); background:rgba(201,169,110,.04); }
+  .drop-zone svg { width:32px; height:32px; fill:none; stroke:var(--gold); stroke-width:1.5; margin-bottom:.5rem; }
+  .drop-text { font-size:.82rem; color:var(--text-soft); }
+  .drop-text strong { color:var(--gold-dark); }
+  .drop-preview { width:100%; max-height:160px; object-fit:cover; border-radius:8px; display:none; }
+  .modal-actions { display:flex; gap:.75rem; margin-top:1.5rem; }
+  .btn-primary { flex:1; background:var(--brown); color:white; border:none; border-radius:8px; padding:.65rem 1.2rem; font-family:'DM Sans',sans-serif; font-size:.85rem; font-weight:500; cursor:pointer; transition:background .2s; }
+  .btn-primary:hover { background:var(--brown-light); }
+  .btn-cancel { background:none; border:1px solid var(--border); border-radius:8px; padding:.65rem 1.2rem; font-family:'DM Sans',sans-serif; font-size:.85rem; color:var(--text-soft); cursor:pointer; transition:all .2s; }
+  .btn-cancel:hover { border-color:var(--gold); color:var(--gold-dark); }
 
-  .modal-overlay.open { display: flex; }
+  /* ── MUSIC BAR ── */
+  .music-bar { position:fixed; bottom:0; left:0; right:0; z-index:100; background:rgba(255,255,255,.95); backdrop-filter:blur(12px); border-top:1px solid var(--border); padding:.6rem 1.2rem; display:flex; align-items:center; gap:.85rem; }
+  .music-btn { width:34px; height:34px; border-radius:50%; border:1px solid var(--gold); background:transparent; color:var(--gold-dark); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .2s; }
+  .music-btn:hover { background:var(--gold); color:white; }
+  .music-btn svg { width:13px; height:13px; fill:currentColor; }
+  .music-info { flex:1; min-width:0; }
+  .music-title { font-size:.8rem; font-weight:500; color:var(--brown); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .music-status { font-size:.68rem; color:var(--text-soft); }
+  .music-progress { flex:2; display:flex; align-items:center; gap:.5rem; }
+  .progress-bar { flex:1; height:3px; background:var(--warm); border-radius:2px; overflow:hidden; cursor:pointer; }
+  .progress-fill { height:100%; background:var(--gold); border-radius:2px; width:0%; transition:width .5s linear; }
+  .music-time { font-size:.7rem; color:var(--text-soft); white-space:nowrap; }
+  .vol-row { display:flex; align-items:center; gap:.35rem; }
+  .vol-row svg { width:13px; height:13px; fill:var(--text-soft); flex-shrink:0; }
+  input[type=range].vol-slider { width:55px; height:3px; -webkit-appearance:none; background:var(--warm); border-radius:2px; outline:none; cursor:pointer; }
+  input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; width:11px; height:11px; border-radius:50%; background:var(--gold); cursor:pointer; }
+  .playlist-toggle-btn { background:none; border:1px solid var(--border); border-radius:20px; padding:.28rem .75rem; font-size:.72rem; color:var(--text-soft); cursor:pointer; white-space:nowrap; transition:all .2s; font-family:'DM Sans',sans-serif; display:flex; align-items:center; gap:.3rem; flex-shrink:0; }
+  .playlist-toggle-btn:hover { border-color:var(--gold); color:var(--gold-dark); }
+  .playlist-toggle-btn svg { width:12px; height:12px; fill:currentColor; }
+  .add-song-btn { background:var(--brown); color:white; border:none; border-radius:20px; padding:.28rem .75rem; font-size:.72rem; cursor:pointer; white-space:nowrap; font-family:'DM Sans',sans-serif; transition:background .2s; flex-shrink:0; }
+  .add-song-btn:hover { background:var(--brown-light); }
 
-  .modal {
-    background: var(--cream);
-    border-radius: 16px;
-    padding: 2rem;
-    width: 100%;
-    max-width: 460px;
-    animation: scaleIn 0.3s ease;
-  }
+  /* ── PLAYLIST PANEL ── */
+  .playlist-panel { position:fixed; bottom:58px; right:0; width:320px; max-height:380px; background:white; border:1px solid var(--border); border-radius:16px 0 0 0; box-shadow:-4px -4px 24px var(--shadow); z-index:99; display:none; flex-direction:column; overflow:hidden; }
+  .playlist-panel.open { display:flex; }
+  .playlist-header { padding:.9rem 1rem .7rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+  .playlist-heading { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400; color:var(--brown); }
+  .playlist-count { font-size:.72rem; color:var(--text-soft); }
+  .playlist-list { overflow-y:auto; flex:1; padding:.5rem 0; }
+  .playlist-item { display:flex; align-items:center; gap:.65rem; padding:.55rem 1rem; cursor:pointer; transition:background .15s; position:relative; }
+  .playlist-item:hover { background:var(--warm); }
+  .playlist-item.active { background:rgba(201,169,110,.1); }
+  .playlist-item.active .pl-name { color:var(--gold-dark); font-weight:500; }
+  .pl-num { font-size:.7rem; color:var(--text-soft); width:18px; text-align:center; flex-shrink:0; font-family:'Cormorant Garamond',serif; }
+  .pl-icon { width:28px; height:28px; border-radius:6px; background:var(--warm); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .pl-icon svg { width:12px; height:12px; fill:var(--gold); }
+  .pl-info { flex:1; min-width:0; }
+  .pl-name { font-size:.8rem; color:var(--brown); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pl-dur { font-size:.68rem; color:var(--text-soft); }
+  .pl-del { background:none; border:none; color:var(--text-soft); cursor:pointer; padding:.2rem; border-radius:4px; opacity:0; transition:opacity .15s; display:flex; align-items:center; }
+  .playlist-item:hover .pl-del { opacity:1; }
+  .pl-del:hover { color:var(--red); }
+  .pl-del svg { width:11px; height:11px; fill:currentColor; }
+  .playing-bar { display:flex; gap:2px; align-items:flex-end; height:12px; }
+  .playing-bar span { width:2px; background:var(--gold); border-radius:1px; animation:barBounce .7s ease-in-out infinite; }
+  .playing-bar span:nth-child(2) { animation-delay:.15s; height:6px; }
+  .playing-bar span:nth-child(3) { animation-delay:.3s; }
+  .music-pulse { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--gold); animation:pulse 1.2s ease-in-out infinite; margin-right:4px; }
 
-  .modal-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    font-weight: 300;
-    color: var(--brown);
-    margin-bottom: 1.5rem;
-  }
-
-  .field-group {
-    margin-bottom: 1rem;
-  }
-
-  .field-label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--text-soft);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 0.4rem;
-  }
-
-  .field-input {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.6rem 0.8rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    background: white;
-    color: var(--brown);
-    outline: none;
-    transition: border-color 0.2s;
-    appearance: none;
-  }
-
-  .field-input:focus { border-color: var(--gold); }
-
-  .drop-zone {
-    border: 2px dashed var(--border);
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: white;
-    margin-bottom: 1rem;
-  }
-
-  .drop-zone:hover, .drop-zone.dragover {
-    border-color: var(--gold);
-    background: rgba(201,169,110,0.04);
-  }
-
-  .drop-zone svg {
-    width: 32px;
-    height: 32px;
-    fill: none;
-    stroke: var(--gold);
-    stroke-width: 1.5;
-    margin-bottom: 0.5rem;
-  }
-
-  .drop-text { font-size: 0.82rem; color: var(--text-soft); }
-  .drop-text strong { color: var(--gold-dark); }
-
-  .drop-preview {
-    width: 100%;
-    max-height: 160px;
-    object-fit: cover;
-    border-radius: 8px;
-    display: none;
-  }
-
-  .modal-actions {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-  }
-
-  .btn-primary {
-    flex: 1;
-    background: var(--brown);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.65rem 1.2rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .btn-primary:hover { background: var(--brown-light); }
-
-  .btn-cancel {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.65rem 1.2rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    color: var(--text-soft);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-cancel:hover { border-color: var(--gold); color: var(--gold-dark); }
-
-  /* ── STATS BAR ── */
-  .stats-bar {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem 1.5rem;
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-  }
-
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    font-weight: 300;
-    color: var(--gold-dark);
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-size: 0.72rem;
-    color: var(--text-soft);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
+  /* ── VIEWER-ONLY NOTICE ── */
+  .viewer-notice { position:fixed; bottom:62px; left:50%; transform:translateX(-50%); background:rgba(20,12,8,.75); color:rgba(255,255,255,.75); font-size:.72rem; padding:.35rem .9rem; border-radius:20px; backdrop-filter:blur(6px); pointer-events:none; opacity:0; transition:opacity .3s; white-space:nowrap; }
+  .viewer-notice.show { opacity:1; }
 
   /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes scaleIn { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
+  @keyframes scrollDot { 0%,100%{transform:translateX(-50%) translateY(0);opacity:1} 80%{transform:translateX(-50%) translateY(10px);opacity:0} }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  @keyframes barBounce { 0%,100%{height:4px} 50%{height:12px} }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+  .shake { animation:shake .4s ease; }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes scaleIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-  }
-
-  @keyframes scrollDot {
-    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
-    80% { transform: translateX(-50%) translateY(10px); opacity: 0; }
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .music-pulse {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--gold);
-    animation: pulse 1.2s ease-in-out infinite;
-    margin-right: 4px;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 640px) {
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
-    .music-progress, .volume-row { display: none; }
-    .lightbox-nav.prev { left: -1rem; }
-    .lightbox-nav.next { right: -1rem; }
+  @media (max-width:640px) {
+    .gallery-grid { grid-template-columns:repeat(2,1fr); gap:.6rem; }
+    .music-progress, .vol-row { display:none; }
+    .lightbox-nav.prev { left:-1rem; }
+    .lightbox-nav.next { right:-1rem; }
+    .playlist-panel { width:100%; border-radius:16px 16px 0 0; }
   }
 </style>
 </head>
 <body>
+
+<!-- OWNER CORNER -->
+<div class="owner-corner" id="ownerCorner">
+  <!-- filled by JS -->
+</div>
 
 <!-- HERO -->
 <section class="hero" id="top">
@@ -924,41 +258,31 @@
 
 <!-- MAIN GALLERY -->
 <main class="main" id="gallery">
-
   <div class="controls-section">
     <h2 class="section-heading">Collected Light</h2>
     <div class="controls-right">
       <div class="view-toggle">
-        <button class="active" id="gridViewBtn" onclick="setView('grid')" title="Grid view">
-          <svg viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6"/><rect x="9" y="1" width="6" height="6"/><rect x="1" y="9" width="6" height="6"/><rect x="9" y="9" width="6" height="6"/></svg>
-          Grid
+        <button class="active" id="gridViewBtn" onclick="setView('grid')">
+          <svg viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6"/><rect x="9" y="1" width="6" height="6"/><rect x="1" y="9" width="6" height="6"/><rect x="9" y="9" width="6" height="6"/></svg> Grid
         </button>
-        <button id="timelineViewBtn" onclick="setView('timeline')" title="Timeline view">
-          <svg viewBox="0 0 16 16"><rect x="6" y="1" width="1" height="14"/><rect x="2" y="4" width="8" height="3"/><rect x="2" y="10" width="8" height="3"/></svg>
-          Timeline
+        <button id="timelineViewBtn" onclick="setView('timeline')">
+          <svg viewBox="0 0 16 16"><rect x="6" y="1" width="1" height="14"/><rect x="2" y="4" width="8" height="3"/><rect x="2" y="10" width="8" height="3"/></svg> Timeline
         </button>
       </div>
-      <button class="upload-photos-btn" onclick="openAddModal()">
-        <svg viewBox="0 0 16 16"><path d="M8 1v10M4 5l4-4 4 4M2 13h12"/></svg>
-        Preserve a Moment
-      </button>
+      <!-- "Preserve a Moment" button: owner-only, injected by JS -->
+      <div id="ownerPhotoBtn"></div>
     </div>
   </div>
-
   <div class="filter-row" id="filterRow">
-    <button class="filter-chip active" onclick="setFilter('all', this)">All</button>
+    <button class="filter-chip active" onclick="setFilter('all',this)">All</button>
   </div>
-
-  <div class="stats-bar" id="statsBar">
+  <div class="stats-bar">
     <div class="stat-item"><span class="stat-num" id="statPhotos">0</span><span class="stat-label">Frozen moments</span></div>
     <div class="stat-item"><span class="stat-num" id="statYears">0</span><span class="stat-label">Years of living</span></div>
     <div class="stat-item"><span class="stat-num" id="statEras">0</span><span class="stat-label">Chapters told</span></div>
   </div>
-
   <div class="gallery-section">
-    <!-- Grid view -->
     <div class="gallery-grid" id="galleryGrid"></div>
-    <!-- Timeline view -->
     <div class="timeline-wrapper" id="timelineWrapper">
       <div class="timeline-spine"></div>
       <div id="timelineContent"></div>
@@ -966,14 +290,29 @@
   </div>
 </main>
 
+<!-- PLAYLIST PANEL -->
+<div class="playlist-panel" id="playlistPanel">
+  <div class="playlist-header">
+    <span class="playlist-heading">The Soundtrack</span>
+    <span class="playlist-count" id="plCount">0 songs</span>
+  </div>
+  <div class="playlist-list" id="playlistList"></div>
+</div>
+
 <!-- MUSIC BAR -->
 <div class="music-bar">
+  <button class="music-btn" onclick="prevTrack()" title="Previous">
+    <svg viewBox="0 0 16 16"><path d="M2 2v12M4 8L14 2v12L4 8z"/></svg>
+  </button>
   <button class="music-btn" id="playBtn" onclick="togglePlay()" title="Play/Pause">
     <svg id="playIcon" viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
   </button>
+  <button class="music-btn" onclick="nextTrack()" title="Next">
+    <svg viewBox="0 0 16 16"><path d="M14 2v12M12 8L2 2v12l10-6z"/></svg>
+  </button>
   <div class="music-info">
     <div class="music-title" id="musicTitle">The silence is waiting</div>
-    <div class="music-status" id="musicStatus">Give these memories a soundtrack</div>
+    <div class="music-status" id="musicStatus">Add a song to set the mood</div>
   </div>
   <div class="music-progress">
     <span class="music-time" id="currentTime">0:00</span>
@@ -982,12 +321,17 @@
     </div>
     <span class="music-time" id="totalTime">0:00</span>
   </div>
-  <div class="volume-row">
+  <div class="vol-row">
     <svg viewBox="0 0 16 16"><path d="M3 5H1v6h2l4 4V1L3 5z"/><path d="M11.5 3.5c1.5 1.5 1.5 7.5 0 9" stroke-width="1.2" stroke="currentColor" fill="none"/></svg>
-    <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.7" oninput="setVolume(this.value)" title="Volume">
+    <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.7" oninput="setVolume(this.value)">
   </div>
-  <button class="music-upload-btn" onclick="document.getElementById('musicFileInput').click()">🎵 Set the mood</button>
-  <input type="file" id="musicFileInput" accept="audio/*" style="display:none" onchange="loadMusic(this)">
+  <button class="playlist-toggle-btn" onclick="togglePlaylist()">
+    <svg viewBox="0 0 12 12"><path d="M1 2h10M1 6h10M1 10h6"/></svg>
+    Playlist
+  </button>
+  <!-- Add Song: owner-only, injected by JS -->
+  <div id="ownerSongBtn"></div>
+  <input type="file" id="musicFileInput" accept="audio/*" multiple style="display:none" onchange="addSongs(this)">
 </div>
 
 <!-- LIGHTBOX -->
@@ -1008,7 +352,7 @@
   </div>
 </div>
 
-<!-- ADD PHOTO MODAL -->
+<!-- ADD PHOTO MODAL (owner only) -->
 <div class="modal-overlay" id="addModal" onclick="closeAddModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
     <h3 class="modal-title">Pin a moment in time</h3>
@@ -1020,417 +364,580 @@
     </div>
     <input type="file" id="photoFileInput" accept="image/*" style="display:none" onchange="previewPhoto(this)">
     <div class="field-group">
-      <label class="field-label" for="captionInput">What was this moment?</label>
+      <label class="field-label">What was this moment?</label>
       <input class="field-input" type="text" id="captionInput" placeholder="e.g. The day everything changed">
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
       <div class="field-group">
-        <label class="field-label" for="yearInput">Year</label>
+        <label class="field-label">The year</label>
         <input class="field-input" type="number" id="yearInput" placeholder="e.g. 2005" min="1900" max="2099">
       </div>
       <div class="field-group">
-        <label class="field-label" for="eraInput">Era / Tag</label>
-        <input class="field-input" type="text" id="eraInput" placeholder="e.g. Baby, School, Travel">
+        <label class="field-label">Chapter of life</label>
+        <input class="field-input" type="text" id="eraInput" placeholder="e.g. Baby years, Wandering">
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeAddModal()">Cancel</button>
-      <button class="btn-primary" onclick="addPhoto()">Save Memory</button>
+      <button class="btn-cancel" onclick="closeAddModal()">Never mind</button>
+      <button class="btn-primary" onclick="addPhoto()">Keep it forever</button>
     </div>
   </div>
 </div>
 
-<input type="file" id="batchFileInput" accept="image/*" multiple style="display:none" onchange="handleBatchUpload(this)">
+<!-- LOGIN MODAL -->
+<div class="login-overlay" id="loginOverlay" onclick="closeLogin(event)">
+  <div class="login-box" onclick="event.stopPropagation()" id="loginBox">
+    <div class="login-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><rect x="14" y="13" width="7" height="5" rx="1"/><path d="M17 13v-2a2 2 0 0 1 4 0v2"/></svg>
+    </div>
+    <h2 class="login-title">Owner's entrance</h2>
+    <p class="login-sub">This gallery belongs to one soul.<br>Enter the password to tend to it.</p>
+    <div class="login-input-wrap">
+      <input class="login-input" type="password" id="pwInput" placeholder="••••••••"
+             onkeydown="if(event.key==='Enter') doLogin()">
+      <button class="login-eye" onclick="toggleEye()" id="eyeBtn" title="Show/hide">
+        <svg id="eyeIcon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div class="login-error" id="loginError"></div>
+    <button class="login-submit" onclick="doLogin()">Step inside</button>
+    <button class="login-cancel" onclick="closeLogin()">I'm just a visitor</button>
+    <p class="login-hint">Default password: <strong>mylife2000</strong><br>Change it after logging in.</p>
+  </div>
+</div>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div class="login-overlay" id="changePwOverlay" onclick="closeChangePw(event)">
+  <div class="changepw-box" onclick="event.stopPropagation()">
+    <h3 class="changepw-title">Change the secret</h3>
+    <div class="field-group">
+      <label class="field-label">Current password</label>
+      <input class="field-input" type="password" id="curPw" placeholder="••••••••">
+    </div>
+    <div class="field-group">
+      <label class="field-label">New password</label>
+      <input class="field-input" type="password" id="newPw" placeholder="Make it meaningful">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Confirm new password</label>
+      <input class="field-input" type="password" id="confirmPw" placeholder="Once more">
+    </div>
+    <div class="login-error" id="changePwError"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeChangePw()">Never mind</button>
+      <button class="btn-primary" onclick="doChangePw()">Save new password</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEWER NOTICE (toast) -->
+<div class="viewer-notice" id="viewerNotice">Only the owner can do that ✦</div>
 
 <script>
-// ── DATA STORE ──
-let photos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
+// ═══════════════════════════════════
+//  PERMANENT SEED PHOTOS
+//  Replace src values with your real
+//  images (base64 or file paths)
+// ═══════════════════════════════════
+const SEED_PHOTOS = [
+  { id:'seed1',  caption:'The day I arrived',              year:'2000', era:'Baby Years',  src:'https://picsum.photos/seed/baby1/400/300',  permanent:true },
+  { id:'seed2',  caption:'First birthday, first cake',     year:'2001', era:'Baby Years',  src:'https://picsum.photos/seed/baby2/400/300',  permanent:true },
+  { id:'seed3',  caption:'Learning to walk, then to run',  year:'2002', era:'Baby Years',  src:'https://picsum.photos/seed/baby3/400/300',  permanent:true },
+  { id:'seed4',  caption:'Kindergarten, day one',          year:'2005', era:'Childhood',   src:'https://picsum.photos/seed/school1/400/300',permanent:true },
+  { id:'seed5',  caption:'That summer at the beach',       year:'2007', era:'Childhood',   src:'https://picsum.photos/seed/beach1/400/300', permanent:true },
+  { id:'seed6',  caption:'Christmas morning magic',        year:'2008', era:'Childhood',   src:'https://picsum.photos/seed/xmas1/400/300',  permanent:true },
+  { id:'seed7',  caption:'First day of high school',       year:'2014', era:'Growing Up',  src:'https://picsum.photos/seed/teen1/400/300',  permanent:true },
+  { id:'seed8',  caption:'The road trip we never planned', year:'2016', era:'Growing Up',  src:'https://picsum.photos/seed/trip1/400/300',  permanent:true },
+  { id:'seed9',  caption:'Graduation — finally',           year:'2018', era:'Growing Up',  src:'https://picsum.photos/seed/grad1/400/300',  permanent:true },
+  { id:'seed10', caption:'First apartment, empty floors',  year:'2019', era:'Now',         src:'https://picsum.photos/seed/apt1/400/300',   permanent:true },
+  { id:'seed11', caption:'Still figuring it all out',      year:'2022', era:'Now',         src:'https://picsum.photos/seed/now1/400/300',   permanent:true },
+  { id:'seed12', caption:'Here. Present. Alive.',          year:'2024', era:'Now',         src:'https://picsum.photos/seed/now2/400/300',   permanent:true },
+];
+
+// ═══════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════
+const DEFAULT_PW = 'mylife2000';
+function getStoredPw() { return localStorage.getItem('gp_pw') || DEFAULT_PW; }
+function savePw(pw) { localStorage.setItem('gp_pw', pw); }
+
+let isOwner = false;   // runtime flag; never persisted (re-login each session)
+
+function getIsOwner() { return isOwner; }
+
+function doLogin() {
+  const val = document.getElementById('pwInput').value;
+  if (val === getStoredPw()) {
+    isOwner = true;
+    document.getElementById('loginError').textContent = '';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('loginOverlay').classList.remove('open');
+    renderOwnerUI();
+    render();
+  } else {
+    const err = document.getElementById('loginError');
+    err.textContent = 'That's not the right password.';
+    const box = document.getElementById('loginBox');
+    box.classList.remove('shake');
+    void box.offsetWidth;
+    box.classList.add('shake');
+  }
+}
+
+function doLogout() {
+  isOwner = false;
+  renderOwnerUI();
+  render();
+}
+
+function openLogin() {
+  document.getElementById('pwInput').value = '';
+  document.getElementById('loginError').textContent = '';
+  document.getElementById('loginOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('pwInput').focus(), 100);
+}
+
+function closeLogin(e) {
+  if (!e || e.target === document.getElementById('loginOverlay'))
+    document.getElementById('loginOverlay').classList.remove('open');
+}
+
+function toggleEye() {
+  const inp = document.getElementById('pwInput');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function openChangePw() {
+  document.getElementById('curPw').value = '';
+  document.getElementById('newPw').value = '';
+  document.getElementById('confirmPw').value = '';
+  document.getElementById('changePwError').textContent = '';
+  document.getElementById('changePwOverlay').classList.add('open');
+}
+function closeChangePw(e) {
+  if (!e || e.target === document.getElementById('changePwOverlay'))
+    document.getElementById('changePwOverlay').classList.remove('open');
+}
+function doChangePw() {
+  const cur = document.getElementById('curPw').value;
+  const nw  = document.getElementById('newPw').value;
+  const cf  = document.getElementById('confirmPw').value;
+  const err = document.getElementById('changePwError');
+  if (cur !== getStoredPw()) { err.textContent = 'Current password is wrong.'; return; }
+  if (nw.length < 4) { err.textContent = 'New password must be at least 4 characters.'; return; }
+  if (nw !== cf) { err.textContent = 'Passwords don't match.'; return; }
+  savePw(nw);
+  err.style.color = 'var(--gold-dark)';
+  err.textContent = 'Password saved. Keep it safe ✦';
+  setTimeout(() => { closeChangePw(); err.style.color = 'var(--red)'; }, 1400);
+}
+
+// ═══════════════════════════════════
+//  OWNER UI INJECTION
+// ═══════════════════════════════════
+function renderOwnerUI() {
+  const corner = document.getElementById('ownerCorner');
+  const photoBtn = document.getElementById('ownerPhotoBtn');
+  const songBtn  = document.getElementById('ownerSongBtn');
+
+  if (isOwner) {
+    corner.innerHTML = `
+      <div class="owner-badge"><span class="dot"></span> Owner</div>
+      <button class="owner-btn" onclick="openChangePw()">Change password</button>
+      <button class="owner-btn logout" onclick="doLogout()">Sign out</button>`;
+    photoBtn.innerHTML = `
+      <button class="upload-photos-btn" onclick="openAddModal()">
+        <svg viewBox="0 0 16 16"><path d="M8 1v10M4 5l4-4 4 4M2 13h12"/></svg>
+        Preserve a Moment
+      </button>`;
+    songBtn.innerHTML = `<button class="add-song-btn" onclick="document.getElementById('musicFileInput').click()">+ Add Song</button>`;
+  } else {
+    corner.innerHTML = `<button class="owner-btn" onclick="openLogin()">🔑 Owner login</button>`;
+    photoBtn.innerHTML = '';
+    songBtn.innerHTML  = '';
+  }
+}
+
+// ═══════════════════════════════════
+//  VIEWER NOTICE
+// ═══════════════════════════════════
+let noticeTimer;
+function showViewerNotice() {
+  const n = document.getElementById('viewerNotice');
+  n.classList.add('show');
+  clearTimeout(noticeTimer);
+  noticeTimer = setTimeout(() => n.classList.remove('show'), 2200);
+}
+
+// ═══════════════════════════════════
+//  DATA
+// ═══════════════════════════════════
+let userPhotos = [];
+let playlist   = [];
+let currentTrackIdx = -1;
+let audio = new Audio();
+let isPlaying = false;
 let currentFilter = 'all';
-let currentView = 'grid';
+let currentView   = 'grid';
 let lightboxIndex = 0;
 let lightboxPhotos = [];
 let pendingPhotoData = null;
-let audio = new Audio();
-let isPlaying = false;
+
+function allPhotos() { return [...SEED_PHOTOS, ...userPhotos]; }
 
 function save() {
-  localStorage.setItem('galleryPhotos', JSON.stringify(photos));
+  try { localStorage.setItem('gp_userPhotos', JSON.stringify(userPhotos)); } catch(e){}
+  try {
+    localStorage.setItem('gp_playlist_meta', JSON.stringify(
+      playlist.map(t => ({ id:t.id, name:t.name, duration:t.duration }))
+    ));
+  } catch(e){}
 }
 
-// ── RENDER ──
+function load() {
+  try { userPhotos = JSON.parse(localStorage.getItem('gp_userPhotos') || '[]'); } catch(e){ userPhotos=[]; }
+  try {
+    const meta = JSON.parse(localStorage.getItem('gp_playlist_meta') || '[]');
+    playlist = meta.map(m => ({ ...m, url:null, blob:null }));
+  } catch(e){ playlist=[]; }
+}
+
+// ═══════════════════════════════════
+//  RENDER GALLERY
+// ═══════════════════════════════════
 function render() {
-  const filtered = currentFilter === 'all'
-    ? photos
-    : photos.filter(p => (p.era || '').toLowerCase() === currentFilter.toLowerCase());
-
-  updateStats();
-  updateFilters();
-
+  const all = allPhotos();
+  const filtered = currentFilter === 'all' ? all : all.filter(p => (p.era||'').toLowerCase() === currentFilter.toLowerCase());
+  updateStats(all); updateFilters(all);
+  lightboxPhotos = filtered;
   if (currentView === 'grid') {
-    renderGrid(filtered);
     document.getElementById('galleryGrid').style.display = 'grid';
     document.getElementById('timelineWrapper').classList.remove('active');
+    renderGrid(filtered);
   } else {
     document.getElementById('galleryGrid').style.display = 'none';
     document.getElementById('timelineWrapper').classList.add('active');
     renderTimeline(filtered);
   }
+  renderPlaylist();
+}
+
+function groupByYear(list) {
+  const m = {};
+  list.forEach(p => { const y = p.year||'Unknown'; if(!m[y]) m[y]=[]; m[y].push(p); });
+  return m;
+}
+function sortedYears(m) {
+  return Object.keys(m).sort((a,b) => {
+    if(a==='Unknown') return 1; if(b==='Unknown') return -1;
+    return parseInt(a)-parseInt(b);
+  });
 }
 
 function renderGrid(filtered) {
   const grid = document.getElementById('galleryGrid');
-  if (filtered.length === 0) {
-    grid.innerHTML = `<div class="empty-state">
-      <svg viewBox="0 0 64 64"><rect x="4" y="10" width="56" height="44" rx="4"/><circle cx="22" cy="26" r="6"/><path d="M4 44l14-12 10 10 8-10 14 16"/></svg>
-      <div class="empty-title">No memories yet</div>
-      <div class="empty-sub">Click "Add Photos" to start building your gallery</div>
-      <button class="upload-photos-btn" onclick="openAddModal()" style="margin:auto;display:flex">
-        <svg viewBox="0 0 16 16" style="width:14px;height:14px;fill:white"><path d="M8 1v10M4 5l4-4 4 4M2 13h12"/></svg> Add Your First Photo
-      </button>
-    </div>`;
-    return;
-  }
-
-  // Group by year for dividers
-  const byYear = {};
-  filtered.forEach(p => {
-    const y = p.year || 'Unknown';
-    if (!byYear[y]) byYear[y] = [];
-    byYear[y].push(p);
-  });
-
-  const years = Object.keys(byYear).sort((a,b) => {
-    if (a === 'Unknown') return 1;
-    if (b === 'Unknown') return -1;
-    return parseInt(a) - parseInt(b);
-  });
-
-  grid.innerHTML = '';
-  lightboxPhotos = filtered;
-
-  years.forEach(year => {
-    const divider = document.createElement('div');
-    divider.className = 'year-divider';
-    divider.innerHTML = `<span class="year-label">${year}</span><div class="year-line"></div>`;
-    grid.appendChild(divider);
-
-    byYear[year].forEach(photo => {
-      const idx = filtered.indexOf(photo);
-      const card = createCard(photo, idx);
-      grid.appendChild(card);
-    });
+  if (!filtered.length) { grid.innerHTML = emptyHTML(); return; }
+  const by = groupByYear(filtered); grid.innerHTML = '';
+  sortedYears(by).forEach(year => {
+    const d = document.createElement('div');
+    d.className = 'year-divider';
+    d.innerHTML = `<span class="year-label">${year}</span><div class="year-line"></div>`;
+    grid.appendChild(d);
+    by[year].forEach(p => grid.appendChild(createCard(p, filtered.indexOf(p))));
   });
 }
 
 function renderTimeline(filtered) {
-  const byYear = {};
-  filtered.forEach(p => {
-    const y = p.year || 'Unknown';
-    if (!byYear[y]) byYear[y] = [];
-    byYear[y].push(p);
-  });
-
-  const years = Object.keys(byYear).sort((a,b) => {
-    if (a === 'Unknown') return 1; if (b === 'Unknown') return -1;
-    return parseInt(a) - parseInt(b);
-  });
-
-  lightboxPhotos = filtered;
   const content = document.getElementById('timelineContent');
-  content.innerHTML = '';
-
-  years.forEach(year => {
-    const section = document.createElement('div');
-    section.className = 'timeline-year';
-    const photos_in_year = byYear[year];
-    const photoCards = photos_in_year.map((photo, i) => {
-      const idx = filtered.indexOf(photo);
-      const card = createCard(photo, idx);
-      card.style.animationDelay = (i * 0.08) + 's';
-      return card.outerHTML;
-    }).join('');
-
-    section.innerHTML = `
-      <div class="timeline-year-label">
-        <div class="timeline-year-dot"></div>
-        <span class="timeline-year-text">${year}</span>
-        <span style="font-size:0.75rem;color:var(--text-soft)">${photos_in_year.length} photo${photos_in_year.length !== 1 ? 's' : ''}</span>
-      </div>
-      <div class="timeline-photos">${photoCards}</div>
-    `;
-    content.appendChild(section);
-
-    section.querySelectorAll('.photo-card').forEach((card, i) => {
-      const photo = photos_in_year[i];
-      const idx = filtered.indexOf(photo);
+  if (!filtered.length) {
+    content.innerHTML = `<div class="empty-state"><svg viewBox="0 0 64 64"><rect x="4" y="10" width="56" height="44" rx="4"/><circle cx="22" cy="26" r="6"/><path d="M4 44l14-12 10 10 8-10 14 16"/></svg><div class="empty-title">Nothing lives here yet</div><div class="empty-sub">The timeline is waiting for you to fill it with life.</div></div>`;
+    return;
+  }
+  const by = groupByYear(filtered); content.innerHTML = '';
+  sortedYears(by).forEach(year => {
+    const piy = by[year];
+    const sec = document.createElement('div');
+    sec.className = 'timeline-year';
+    const cards = piy.map((p,i) => { const c=createCard(p,filtered.indexOf(p)); c.style.animationDelay=(i*.08)+'s'; return c.outerHTML; }).join('');
+    sec.innerHTML = `<div class="timeline-year-label"><div class="timeline-year-dot"></div><span class="timeline-year-text">${year}</span><span style="font-size:.75rem;color:var(--text-soft)">${piy.length} moment${piy.length!==1?'s':''}</span></div><div class="timeline-photos">${cards}</div>`;
+    content.appendChild(sec);
+    sec.querySelectorAll('.photo-card').forEach((card,i) => {
+      const p=piy[i], idx=filtered.indexOf(p);
       card.querySelector('.img-wrap').onclick = () => openLightbox(idx);
-      const delBtn = card.querySelector('.del-btn');
-      if (delBtn) delBtn.onclick = (e) => { e.stopPropagation(); deletePhoto(photo.id); };
+      const db = card.querySelector('.del-btn');
+      if (db) db.onclick = e => { e.stopPropagation(); deletePhoto(p.id, p.permanent); };
     });
   });
-
-  if (filtered.length === 0) {
-    content.innerHTML = `<div class="empty-state">
-      <svg viewBox="0 0 64 64"><rect x="4" y="10" width="56" height="44" rx="4"/><circle cx="22" cy="26" r="6"/><path d="M4 44l14-12 10 10 8-10 14 16"/></svg>
-      <div class="empty-title">No memories yet</div>
-      <div class="empty-sub">Click "Add Photos" to start building your gallery</div>
-    </div>`;
-  }
 }
 
 function createCard(photo, idx) {
   const card = document.createElement('div');
   card.className = 'photo-card';
-  card.style.animationDelay = (idx * 0.05) + 's';
+  card.style.animationDelay = (idx*.04)+'s';
+  // delete button only visible to owner, and only for non-permanent photos
+  const showDel = isOwner && !photo.permanent;
   card.innerHTML = `
     <div class="img-wrap">
-      ${photo.src ? `<img src="${photo.src}" alt="${photo.caption || ''}">` : `<div class="photo-placeholder"><svg viewBox="0 0 32 32"><rect x="2" y="6" width="28" height="22" rx="2"/><circle cx="11" cy="15" r="3"/><path d="M2 22l8-7 6 6 4-5 8 9"/></svg><span>No image</span></div>`}
+      ${photo.src ? `<img src="${photo.src}" alt="${photo.caption||''}" loading="lazy">` : `<div class="photo-placeholder"><svg viewBox="0 0 32 32"><rect x="2" y="6" width="28" height="22" rx="2"/><circle cx="11" cy="15" r="3"/><path d="M2 22l8-7 6 6 4-5 8 9"/></svg><span>No image</span></div>`}
       <div class="card-actions">
-        <button class="card-action-btn del-btn" title="Delete">
-          <svg viewBox="0 0 14 14"><path d="M2 4h10M5 4V2h4v2M3 4l1 8h6l1-8"/></svg>
-        </button>
+        ${showDel ? `<button class="card-action-btn del-btn" title="Forget this one"><svg viewBox="0 0 14 14"><path d="M2 4h10M5 4V2h4v2M3 4l1 8h6l1-8"/></svg></button>` : ''}
       </div>
     </div>
     <div class="card-meta">
-      <div class="card-caption">${photo.caption || 'Untitled'}</div>
+      <div class="card-caption">${photo.caption||'Untitled'}</div>
       <div class="card-date">
         <svg style="width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.5" viewBox="0 0 12 12"><rect x="1" y="2" width="10" height="9" rx="1"/><path d="M4 1v2M8 1v2M1 5h10"/></svg>
-        ${photo.year || 'Unknown year'}${photo.era ? ` · ${photo.era}` : ''}
+        ${photo.year||'Unknown'}${photo.era ? ` · ${photo.era}` : ''}
       </div>
-    </div>
-  `;
+    </div>`;
   card.querySelector('.img-wrap').onclick = () => openLightbox(idx);
-  card.querySelector('.del-btn').onclick = (e) => { e.stopPropagation(); deletePhoto(photo.id); };
+  const db = card.querySelector('.del-btn');
+  if (db) db.onclick = e => { e.stopPropagation(); deletePhoto(photo.id, photo.permanent); };
   return card;
 }
 
-function updateStats() {
-  const total = photos.length;
-  const years = new Set(photos.map(p => p.year).filter(Boolean)).size;
-  const eras = new Set(photos.map(p => p.era).filter(Boolean)).size;
-  document.getElementById('statPhotos').textContent = total;
-  document.getElementById('statYears').textContent = years;
-  document.getElementById('statEras').textContent = eras;
+function emptyHTML() {
+  const btn = isOwner ? `<button class="upload-photos-btn" onclick="openAddModal()" style="margin:auto;display:flex"><svg viewBox="0 0 16 16" style="width:14px;height:14px;fill:white"><path d="M8 1v10M4 5l4-4 4 4M2 13h12"/></svg> Place your first memory</button>` : '';
+  return `<div class="empty-state"><svg viewBox="0 0 64 64"><rect x="4" y="10" width="56" height="44" rx="4"/><circle cx="22" cy="26" r="6"/><path d="M4 44l14-12 10 10 8-10 14 16"/></svg><div class="empty-title">Your story hasn't begun here yet</div><div class="empty-sub">Every life deserves a gallery. Start with the earliest photo you can find.</div>${btn}</div>`;
 }
 
-function updateFilters() {
-  const eras = [...new Set(photos.map(p => p.era).filter(Boolean))];
-  const row = document.getElementById('filterRow');
-  row.innerHTML = `<button class="filter-chip ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all', this)">All</button>`;
+function updateStats(all) {
+  document.getElementById('statPhotos').textContent = all.length;
+  document.getElementById('statYears').textContent  = new Set(all.map(p=>p.year).filter(Boolean)).size;
+  document.getElementById('statEras').textContent   = new Set(all.map(p=>p.era).filter(Boolean)).size;
+}
+function updateFilters(all) {
+  const eras = [...new Set(all.map(p=>p.era).filter(Boolean))];
+  const row  = document.getElementById('filterRow');
+  row.innerHTML = `<button class="filter-chip ${currentFilter==='all'?'active':''}" onclick="setFilter('all',this)">All</button>`;
   eras.forEach(era => {
     const btn = document.createElement('button');
-    btn.className = 'filter-chip' + (currentFilter === era ? ' active' : '');
+    btn.className = 'filter-chip'+(currentFilter===era?' active':'');
     btn.textContent = era;
     btn.onclick = () => setFilter(era, btn);
     row.appendChild(btn);
   });
 }
 
-// ── CONTROLS ──
-function setView(view) {
-  currentView = view;
-  document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
-  document.getElementById('timelineViewBtn').classList.toggle('active', view === 'timeline');
-  render();
-}
-
-function setFilter(filter, btn) {
-  currentFilter = filter;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  render();
-}
-
-// ── ADD PHOTO ──
-function openAddModal() {
-  document.getElementById('addModal').classList.add('open');
-  pendingPhotoData = null;
-  document.getElementById('dropPreview').style.display = 'none';
-  document.getElementById('captionInput').value = '';
-  document.getElementById('yearInput').value = '';
-  document.getElementById('eraInput').value = '';
-  document.querySelector('.drop-zone svg').style.display = '';
-  document.querySelector('.drop-zone .drop-text').style.display = '';
-}
-
-function closeAddModal(e) {
-  if (!e || e.target === document.getElementById('addModal')) {
-    document.getElementById('addModal').classList.remove('open');
+// ═══════════════════════════════════
+//  PLAYLIST
+// ═══════════════════════════════════
+function renderPlaylist() {
+  const list  = document.getElementById('playlistList');
+  const count = document.getElementById('plCount');
+  count.textContent = playlist.length + ' song' + (playlist.length!==1?'s':'');
+  if (!playlist.length) {
+    const msg = isOwner
+      ? 'No songs yet — click "+ Add Song" and let the memories breathe'
+      : 'No songs in the playlist yet.';
+    list.innerHTML = `<div style="padding:2rem;text-align:center;color:var(--text-soft);font-size:.82rem;font-family:'Cormorant Garamond',serif;font-style:italic">${msg}</div>`;
+    return;
   }
-}
-
-function previewPhoto(input) {
-  if (!input.files[0]) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    pendingPhotoData = e.target.result;
-    const preview = document.getElementById('dropPreview');
-    preview.src = pendingPhotoData;
-    preview.style.display = 'block';
-    document.querySelector('.drop-zone svg').style.display = 'none';
-    document.querySelector('.drop-zone .drop-text').style.display = 'none';
-  };
-  reader.readAsDataURL(input.files[0]);
-}
-
-function handleDragOver(e) {
-  e.preventDefault();
-  document.getElementById('dropZone').classList.add('dragover');
-}
-
-function handleDragLeave(e) {
-  document.getElementById('dropZone').classList.remove('dragover');
-}
-
-function handleDrop(e) {
-  e.preventDefault();
-  document.getElementById('dropZone').classList.remove('dragover');
-  const file = e.dataTransfer.files[0];
-  if (file && file.type.startsWith('image/')) {
-    const fakeInput = { files: [file] };
-    previewPhoto(fakeInput);
-  }
-}
-
-function addPhoto() {
-  const caption = document.getElementById('captionInput').value.trim();
-  const year = document.getElementById('yearInput').value.trim();
-  const era = document.getElementById('eraInput').value.trim();
-
-  const photo = {
-    id: Date.now(),
-    src: pendingPhotoData || null,
-    caption: caption || 'Untitled',
-    year: year || null,
-    era: era || null,
-    addedAt: new Date().toISOString()
-  };
-
-  photos.push(photo);
-  save();
-  closeAddModal();
-  render();
-}
-
-function deletePhoto(id) {
-  if (confirm('Remove this memory from your gallery?')) {
-    photos = photos.filter(p => p.id !== id);
-    save();
-    render();
-  }
-}
-
-function handleBatchUpload(input) {
-  Array.from(input.files).forEach((file, i) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      photos.push({
-        id: Date.now() + i,
-        src: e.target.result,
-        caption: file.name.replace(/\.[^.]+$/, ''),
-        year: null, era: null,
-        addedAt: new Date().toISOString()
-      });
-      if (i === input.files.length - 1) { save(); render(); }
-    };
-    reader.readAsDataURL(file);
+  list.innerHTML = '';
+  playlist.forEach((track, i) => {
+    const item = document.createElement('div');
+    item.className = 'playlist-item'+(i===currentTrackIdx?' active':'');
+    const active = i===currentTrackIdx;
+    item.innerHTML = `
+      <span class="pl-num">${active&&isPlaying?`<div class="playing-bar"><span></span><span></span><span></span></div>`:i+1}</span>
+      <div class="pl-icon"><svg viewBox="0 0 14 14"><path d="M5 2v8M5 2l6 2-6 2" stroke="var(--gold)" stroke-width="1.2" fill="none"/><circle cx="3" cy="10" r="2" fill="var(--gold)"/></svg></div>
+      <div class="pl-info">
+        <div class="pl-name">${track.name}</div>
+        <div class="pl-dur">${track.duration||(track.url?'—':'⚠ re-add to play')}</div>
+      </div>
+      ${isOwner ? `<button class="pl-del" onclick="removeTrack(${i},event)" title="Remove"><svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2l-8 8"/></svg></button>` : ''}`;
+    item.onclick = e => { if(!e.target.closest('.pl-del')) playTrack(i); };
+    list.appendChild(item);
   });
 }
 
-// ── LIGHTBOX ──
-function openLightbox(idx) {
-  lightboxIndex = idx;
-  showLightboxPhoto();
-  document.getElementById('lightbox').classList.add('open');
+function togglePlaylist() { document.getElementById('playlistPanel').classList.toggle('open'); }
+
+function addSongs(input) {
+  if (!isOwner) { showViewerNotice(); return; }
+  Array.from(input.files).forEach(file => {
+    const url = URL.createObjectURL(file);
+    const id  = 'track_'+Date.now()+'_'+Math.random();
+    const track = { id, name:file.name.replace(/\.[^.]+$/,''), url, blob:file, duration:'—' };
+    playlist.push(track);
+    const tmp = new Audio(url);
+    tmp.onloadedmetadata = () => { track.duration=formatTime(tmp.duration); renderPlaylist(); save(); };
+  });
+  save(); renderPlaylist();
+  if (currentTrackIdx===-1 && playlist.length) playTrack(0);
+  input.value='';
 }
 
-function showLightboxPhoto() {
-  const p = lightboxPhotos[lightboxIndex];
-  if (!p) return;
-  document.getElementById('lightboxImg').src = p.src || '';
-  document.getElementById('lightboxCaption').textContent = p.caption || 'Untitled';
-  document.getElementById('lightboxDate').textContent = [p.year, p.era].filter(Boolean).join(' · ') || '';
+function removeTrack(idx, e) {
+  if (!isOwner) { showViewerNotice(); return; }
+  e && e.stopPropagation();
+  if (idx===currentTrackIdx) { audio.pause(); isPlaying=false; currentTrackIdx=-1; updatePlayUI(); }
+  else if (idx<currentTrackIdx) currentTrackIdx--;
+  playlist.splice(idx,1);
+  save(); renderPlaylist();
 }
 
-function closeLightbox(e) {
-  if (!e || e.target === document.getElementById('lightbox') || !e.target) {
-    document.getElementById('lightbox').classList.remove('open');
-  }
-}
-
-function navigateLightbox(dir) {
-  lightboxIndex = (lightboxIndex + dir + lightboxPhotos.length) % lightboxPhotos.length;
-  showLightboxPhoto();
-}
-
-document.addEventListener('keydown', (e) => {
-  if (!document.getElementById('lightbox').classList.contains('open')) return;
-  if (e.key === 'ArrowLeft') navigateLightbox(-1);
-  if (e.key === 'ArrowRight') navigateLightbox(1);
-  if (e.key === 'Escape') closeLightbox();
-});
-
-// ── MUSIC ──
-function loadMusic(input) {
-  if (!input.files[0]) return;
-  const file = input.files[0];
-  const url = URL.createObjectURL(file);
-  audio.src = url;
-  audio.volume = 0.7;
-  document.getElementById('musicTitle').textContent = file.name.replace(/\.[^.]+$/, '');
-  document.getElementById('musicStatus').innerHTML = '<span class="music-pulse"></span> Ready to play';
-  audio.load();
+function playTrack(idx) {
+  if (!playlist[idx]||!playlist[idx].url) { showStatus('⚠ Re-add this song to play it'); return; }
+  currentTrackIdx = idx;
+  const t = playlist[idx];
+  audio.src = t.url;
+  audio.volume = document.querySelector('.vol-slider').value;
+  audio.load(); audio.play();
+  isPlaying = true;
+  document.getElementById('musicTitle').textContent = t.name;
+  document.getElementById('playIcon').innerHTML = '<rect x="3" y="2" width="4" height="12"/><rect x="9" y="2" width="4" height="12"/>';
+  document.getElementById('musicStatus').innerHTML = '<span class="music-pulse"></span> Drifting through the air';
   audio.ontimeupdate = updateProgress;
-  audio.onended = () => {
-    document.getElementById('playIcon').innerHTML = '<polygon points="4,2 14,8 4,14"/>';
-    document.getElementById('musicStatus').textContent = 'Finished';
-    isPlaying = false;
-  };
   audio.onloadedmetadata = () => {
     document.getElementById('totalTime').textContent = formatTime(audio.duration);
+    t.duration = formatTime(audio.duration); renderPlaylist();
   };
+  audio.onended = () => {
+    isPlaying=false;
+    document.getElementById('musicStatus').textContent='The last note has gone quiet.';
+    document.getElementById('playIcon').innerHTML='<polygon points="4,2 14,8 4,14"/>';
+    renderPlaylist();
+    if (currentTrackIdx<playlist.length-1) setTimeout(()=>playTrack(currentTrackIdx+1),800);
+  };
+  renderPlaylist();
 }
 
 function togglePlay() {
-  if (!audio.src) { document.getElementById('musicFileInput').click(); return; }
+  if (currentTrackIdx===-1) { if(playlist.length) playTrack(0); return; }
   if (isPlaying) {
-    audio.pause();
-    document.getElementById('playIcon').innerHTML = '<polygon points="4,2 14,8 4,14"/>';
-    document.getElementById('musicStatus').textContent = 'Paused';
-    isPlaying = false;
+    audio.pause(); isPlaying=false;
+    document.getElementById('playIcon').innerHTML='<polygon points="4,2 14,8 4,14"/>';
+    document.getElementById('musicStatus').textContent='Holding its breath…';
   } else {
-    audio.play();
-    document.getElementById('playIcon').innerHTML = '<rect x="3" y="2" width="4" height="12"/><rect x="9" y="2" width="4" height="12"/>';
-    document.getElementById('musicStatus').innerHTML = '<span class="music-pulse"></span> Playing';
-    isPlaying = true;
+    audio.play(); isPlaying=true;
+    document.getElementById('playIcon').innerHTML='<rect x="3" y="2" width="4" height="12"/><rect x="9" y="2" width="4" height="12"/>';
+    document.getElementById('musicStatus').innerHTML='<span class="music-pulse"></span> Drifting through the air';
   }
+  renderPlaylist();
 }
-
+function prevTrack() { if(currentTrackIdx>0) playTrack(currentTrackIdx-1); else if(playlist.length) playTrack(playlist.length-1); }
+function nextTrack() { if(currentTrackIdx<playlist.length-1) playTrack(currentTrackIdx+1); else if(playlist.length) playTrack(0); }
+function updatePlayUI() {
+  document.getElementById('playIcon').innerHTML='<polygon points="4,2 14,8 4,14"/>';
+  document.getElementById('musicTitle').textContent='The silence is waiting';
+  document.getElementById('musicStatus').textContent='Add a song to set the mood';
+  document.getElementById('progressFill').style.width='0%';
+  document.getElementById('currentTime').textContent='0:00';
+  document.getElementById('totalTime').textContent='0:00';
+}
+function showStatus(msg) { document.getElementById('musicStatus').textContent=msg; }
 function updateProgress() {
-  if (!audio.duration) return;
-  const pct = (audio.currentTime / audio.duration) * 100;
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+  if(!audio.duration) return;
+  document.getElementById('progressFill').style.width=(audio.currentTime/audio.duration*100)+'%';
+  document.getElementById('currentTime').textContent=formatTime(audio.currentTime);
 }
-
 function seekMusic(e) {
-  if (!audio.duration) return;
-  const bar = document.getElementById('progressBar');
-  const rect = bar.getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
-  audio.currentTime = pct * audio.duration;
+  if(!audio.duration) return;
+  const bar=document.getElementById('progressBar'), rect=bar.getBoundingClientRect();
+  audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration;
+}
+function setVolume(v) { audio.volume=parseFloat(v); }
+function formatTime(s) { if(isNaN(s)) return '0:00'; return Math.floor(s/60)+':'+Math.floor(s%60).toString().padStart(2,'0'); }
+
+// ═══════════════════════════════════
+//  GALLERY CONTROLS
+// ═══════════════════════════════════
+function setView(view) {
+  currentView=view;
+  document.getElementById('gridViewBtn').classList.toggle('active',view==='grid');
+  document.getElementById('timelineViewBtn').classList.toggle('active',view==='timeline');
+  render();
+}
+function setFilter(filter, btn) {
+  currentFilter=filter;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active'); render();
 }
 
-function setVolume(val) { audio.volume = parseFloat(val); }
-
-function formatTime(s) {
-  if (isNaN(s)) return '0:00';
-  const m = Math.floor(s / 60);
-  const sec = Math.floor(s % 60).toString().padStart(2, '0');
-  return `${m}:${sec}`;
+// ═══════════════════════════════════
+//  ADD / DELETE PHOTO (owner only)
+// ═══════════════════════════════════
+function openAddModal() {
+  if (!isOwner) { showViewerNotice(); return; }
+  document.getElementById('addModal').classList.add('open');
+  pendingPhotoData=null;
+  document.getElementById('dropPreview').style.display='none';
+  document.getElementById('captionInput').value='';
+  document.getElementById('yearInput').value='';
+  document.getElementById('eraInput').value='';
+  document.querySelector('.drop-zone svg').style.display='';
+  document.querySelector('.drop-zone .drop-text').style.display='';
+}
+function closeAddModal(e) {
+  if(!e||e.target===document.getElementById('addModal')) document.getElementById('addModal').classList.remove('open');
+}
+function previewPhoto(input) {
+  if(!input.files[0]) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    pendingPhotoData=e.target.result;
+    const prev=document.getElementById('dropPreview');
+    prev.src=pendingPhotoData; prev.style.display='block';
+    document.querySelector('.drop-zone svg').style.display='none';
+    document.querySelector('.drop-zone .drop-text').style.display='none';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+function handleDragOver(e){ e.preventDefault(); document.getElementById('dropZone').classList.add('dragover'); }
+function handleDragLeave(){ document.getElementById('dropZone').classList.remove('dragover'); }
+function handleDrop(e){
+  e.preventDefault(); document.getElementById('dropZone').classList.remove('dragover');
+  const f=e.dataTransfer.files[0];
+  if(f&&f.type.startsWith('image/')) previewPhoto({files:[f]});
+}
+function addPhoto(){
+  if(!isOwner){ showViewerNotice(); return; }
+  const caption=document.getElementById('captionInput').value.trim();
+  const year=document.getElementById('yearInput').value.trim();
+  const era=document.getElementById('eraInput').value.trim();
+  userPhotos.push({id:'u_'+Date.now(),src:pendingPhotoData||null,caption:caption||'Untitled',year:year||null,era:era||null,permanent:false});
+  save(); closeAddModal(); render();
+}
+function deletePhoto(id, permanent){
+  if(!isOwner){ showViewerNotice(); return; }
+  if(permanent){ alert('Permanent memories cannot be removed from this gallery.'); return; }
+  if(confirm('Let this moment go?')){ userPhotos=userPhotos.filter(p=>p.id!==id); save(); render(); }
 }
 
-// ── INIT ──
+// ═══════════════════════════════════
+//  LIGHTBOX
+// ═══════════════════════════════════
+function openLightbox(idx){ lightboxIndex=idx; showLightboxPhoto(); document.getElementById('lightbox').classList.add('open'); }
+function showLightboxPhoto(){
+  const p=lightboxPhotos[lightboxIndex]; if(!p) return;
+  document.getElementById('lightboxImg').src=p.src||'';
+  document.getElementById('lightboxCaption').textContent=p.caption||'Untitled';
+  document.getElementById('lightboxDate').textContent=[p.year,p.era].filter(Boolean).join(' · ')||'';
+}
+function closeLightbox(e){ if(!e||e.target===document.getElementById('lightbox')||!e.target) document.getElementById('lightbox').classList.remove('open'); }
+function navigateLightbox(dir){ lightboxIndex=(lightboxIndex+dir+lightboxPhotos.length)%lightboxPhotos.length; showLightboxPhoto(); }
+
+document.addEventListener('keydown', e => {
+  const lb=document.getElementById('lightbox');
+  if(!lb.classList.contains('open')) return;
+  if(e.key==='ArrowLeft') navigateLightbox(-1);
+  if(e.key==='ArrowRight') navigateLightbox(1);
+  if(e.key==='Escape') closeLightbox();
+});
+
+// Close playlist panel when clicking outside
+document.addEventListener('click', e => {
+  const panel=document.getElementById('playlistPanel');
+  const btn=document.querySelector('.playlist-toggle-btn');
+  if(panel&&btn&&!panel.contains(e.target)&&!btn.contains(e.target)) panel.classList.remove('open');
+});
+
+// ═══════════════════════════════════
+//  INIT
+// ═══════════════════════════════════
+load();
+renderOwnerUI();
 render();
 </script>
 </body>
